@@ -1,0 +1,155 @@
+<!DOCTYPE HTML>
+<html ng-app="ptech">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Peterson Technology Partners</title>
+<link rel="stylesheet" href="css/bootstrap.css" >
+<link rel="stylesheet" href="css/jquery.fileupload.css">
+
+<script src="js/jquery-2.1.0.min.js"></script>
+<script src="js/jquery.form-validator.min.js"></script>
+<script src="js/bootstrap.js"></script>
+
+<script src="js/jquery.ui.widget.js"></script>
+<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
+<script src="js/jquery.iframe-transport.js"></script>
+<!-- The basic File Upload plugin -->
+<script src="js/jquery.fileupload.js"></script>
+<script	src="http://code.angularjs.org/1.2.13/angular.min.js"></script>
+<script src="http://code.angularjs.org/1.2.13/angular-route.js"></script>
+<script src="http://code.angularjs.org/1.2.13/angular-cookies.js"></script>
+<script src="js/jquery.ajaxfileupload.js"></script>
+
+<script src="js/registerScript.js"></script>
+<!-- My Angular Scripts -->
+<script src="js/ngScripts/ngApp.js"></script>
+<script src="js/ngScripts/ngController.js"></script>
+<script src="js/ngScripts/ngFactory.js"></script>
+</head>
+
+<body>
+<div class="container" ng-controller="registerCtrl">
+	<div class="row">
+    	<div class="col-md-4 col-md-offset-4">
+    	<!-- Alerts -->
+    	
+    	<div class="alert alert-danger" ng-show="!isAvailable">Email Taken.</div>
+        	<div class="panel panel-primary">
+            	<div class="panel-heading"><h4>Please Register</h4></div>
+                <ul class="list-group">
+                <form action="Register" method="post" >
+                <li class="list-group-item">
+                		
+                        <div class="form-group">
+                            <label for="email">Email:</label>
+                            <input type="text" class="form-control" ng-model="userEmail" ng-change="checkEmail()" name="email" placeholder="Enter Email..." data-validation="email"
+                            	data-validation-error-msg="You must enter a valid email" id="email" onkeyup="enableUpload()">
+                        </div>
+                        <div class="form-group">
+                            <label for="pass1">Password:</label>
+                            <input type="password" class="form-control" name="pass1" id="pass1" placeholder="Password" 
+                            data-validation="strength"
+                            data-validation-strength="4" data-validation-error-msg="You must supply a password" ng-model="pw">
+                        </div>
+                        <div class="form-group">
+                            <label for="pass2">Confirm Password:</label>
+                            <input type="password" class="form-control" name="pass2" id="pass2" placeholder="Confirm Password" 
+                            data-validation="confirmation" >
+                        </div>
+                        <div class="form-group">
+                        <label for="imgUpload">Upload your picture:</label>
+                        <input id="fileupload" type="file" name="datafile" ng-click="fileUpload()">
+                        <!-- 
+                    	<label for="imgUpload">Upload your picture:</label><br>
+                    	<span class="btn btn-success fileinput-button" id="imgUpload">
+					        <i class="glyphicon glyphicon-plus"></i>
+					        <span>Select files...</span>
+					        <!-- The file input field used as target for the file upload widget 
+					        <input id="fileupload" type="file" name="datafile" onclick="onFileUpload()" >
+					    </span>
+					    -->
+					    <br>
+					    <div id="uploadComment" style="display:none;">Uploading...</div>
+					    <div id="imgName" ></div>
+					    <!-- 
+                    	<div id="progress" class="progress">
+        					<div class="progress-bar progress-bar-success"></div>
+    					</div>
+    					-->
+    					
+                    </div>
+                        
+                	
+                </li>
+                <li class="list-group-item"><h4>Personal Information:</h4></li>
+                <li class="list-group-item">
+                	<div class="form-group">
+                            <label for="fname">First Name:</label>
+                            <input type="text" class="form-control" name="fname" id="fname" placeholder="First Name"
+                             data-validation="required"
+                            data-validation-error-msg="First name cannot be empty" ng-model="fname">
+                        </div>
+                    <div class="form-group">
+                            <label for="lname">Last Name:</label>
+                            <input type="text" class="form-control" name="lname" id="lname" placeholder="Last Name" 
+                            data-validation="required"
+                            data-validation-error-msg="Last name cannot be empty" ng-model="lname">
+                    </div>
+                    <div class="form-group">
+                            <label for="street">Street:</label>
+                            <input type="text" class="form-control" name="street" id="street" placeholder="Street"
+                             data-validation="required"
+                            data-validation-error-msg="Street cannot be empty" ng-model="street">
+                    </div>
+                    <div class="form-group">
+                            <label for="city">City:</label>
+                            <input type="text" class="form-control" name="city" id="city" placeholder="City" data-validation="required"
+                            data-validation-error-msg="City cannot be empty" ng-model="city">
+                    </div>
+                    <div class="form-group">
+                            <label for="state">State:</label>
+                            <input type="text" class="form-control" name="state" id="state" placeholder="State"
+                             data-validation="required"
+                            data-validation-error-msg="State cannot be empty" ng-model="state">
+                    </div>
+                    <div class="form-group">
+                            <label for="zip">Zip Code:</label>
+                            <input type="text" class="form-control" name="zip" id="zip" placeholder="Zip Code" data-validation="number"
+                            ng-model="zip">
+                    </div>
+                    
+                    
+                </li>
+                <li class="list-group-item"><h4>Role:</h4></li>
+                <li class="list-group-item">
+                <p align="center">
+                	<div class="radio">
+                    	<label>
+                        <input type="radio" name="role" id="manager" value="Manager" ng-model="role" checked>Manager
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label>
+                        <input type="radio" name="role" id="developer" ng-model="role" value="Developer">Developer
+                        </label>
+                    </div>
+                    <div class="radio">    
+                        <label>
+                        <input type="radio" name="role" id="qa" ng-model="role" value="QA">QA
+                       </label>
+                      </div>
+                    </p>
+                </li>
+                <li class="list-group-item">
+                <p align="center">
+                	<button type="submit" class="btn btn-default" ng-click="register()">Submit</button>
+                </p>
+                </form>
+                </ul>
+                	
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

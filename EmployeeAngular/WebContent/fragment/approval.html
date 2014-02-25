@@ -1,0 +1,56 @@
+<div>
+	<div class="panel panel-default">
+		<div class="panel-heading">Users to Approve</div>
+		<div class="panel-body">
+
+			<div ng-repeat="usr in emp[3]">
+				<div class='col-md-3'>
+					<div class='panel panel-default text-center' id='btnOpenModal'
+						ng-click='func($index)' data-target='userModal' ng-model="appUser">
+						<div class='panel-heading' ng-class='roleStyle'>
+							<strong> {{usr.role}}</strong>
+						</div>
+						<img ng-src='{{usr.img}}' class='img-circle' width=140>
+						<h4>{{usr.fname}} {{usr.lname}}</h4>
+					</div>
+				</div>
+
+
+				<!--  Modals for user info popups -->
+
+				<div class="modal fade" id="userModal{{$index}}" tabindex="-1"
+					role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal"
+									aria-hidden="true">&times;</button>
+								<h4 class="modal-title" id="myModalLabel">Employee</h4>
+							</div>
+							<div class="modal-body" id="userModalBody">
+
+								<img ng-src='{{usr.img}}' class='img-rounded' width=280><br>
+								{{usr.fname}} {{usr.lname}}<br> {{usr.street}}<br>
+								{{usr.city}}, {{usr.state}} {{usr.zip}}<br> {{usr.email}}<br>
+								{{usr.role}}
+
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-warning"
+									data-dismiss="modal">Cancel</button>
+								<button type="button" class="btn btn-danger"
+									ng-click="rejectUser($index)">Reject</button>
+								<button type="button" class="btn btn-success"
+									ng-click="approve($index)">Approve</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!--  End Modals -->
+
+			</div>
+
+		</div>
+	</div>
+</div>

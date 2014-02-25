@@ -1,0 +1,223 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" ng-app="ptech">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Peterson Tech Partners</title>
+<link rel="stylesheet" href="css/bootstrap.css" >
+<link rel="stylesheet" href="colorbox.css" />
+
+<script src="js/jquery-2.1.0.min.js"></script>
+<script src="js/jquery.form-validator.min.js"></script>
+<script src="js/tab.js"></script>
+<script src="js/jquery.slides.min.js"></script>
+<script src="js/jquery.colorbox-min.js"></script>
+
+<script	src="http://code.angularjs.org/1.2.13/angular.min.js"></script>
+<script src="http://code.angularjs.org/1.2.13/angular-route.js"></script>
+
+<!-- My Script -->
+<script src="js/indexScript.js"></script>
+
+<!-- My Angular Scripts -->
+<script src="js/ngScripts/ngApp.js"></script>
+<script src="js/ngScripts/ngController.js"></script>
+</head>
+<body>
+<div class="container">
+	<div class="row">
+    	<div class="col-md-1 col-md-offset-11">
+        
+        </div>
+    </div>
+	<div class="row">
+    
+    <img src="img/office1.jpg"/>
+    
+    
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+        <ul class="nav nav-tabs nav-pills nav-stacked" id="tabs" data-tabs="tabs">
+        	<li class="active"><a href="#home" data-toggle="tab">Home</a></li>
+            
+            <li><a href="#clients" data-toggle="tab">Clients</a></li>
+            <li><a href="#practice" data-toggle="tab">SAP Practice</a></li>
+            <li><a href="#resources" data-toggle="tab">SAP Resources</a></li>
+            <li><a href="#tech" data-toggle="tab">Broad Technology</a></li>
+            <li><a href="#contact" data-toggle="tab">Contact Us</a></li>
+        </ul>
+        <button type="button" class="btn btn-success" id="loginButton">Login</button>
+        </div>
+        <div class="col-md-8">
+        
+            	<div class="tab-content">        	
+                    <div class="tab-pane active" id="home">
+                    	<h1>Peterson Tech Partners</h1>
+       <p> Delivers the Business Strategy of our customers. We apply our business and technology expertise to the challenges of making change happen for our customers. Our success is measured according to the outcomes experienced by our customers, such as new business creation, cost reduction, revenue improvement or effective corporate restructuring.
+    </p><p>
+    The Company has built its reputation as a leading facilitator of change by employing the best consultants and partnering with leading business and technology companies to deliver complete business solutions. Over the last seven years, PETERSON TECHNOLOGY PARTNERS has evolved from an implementation consultancy into a full service provider that meets all the Business Consulting, Solutions Implementation and Applications Management needs of large organizations needing to deliver against their business strategy. </p>
+                    </div>
+                    <div class="tab-pane" id="clients">
+                    <div class="row">
+	                    <div class="btn-group" id="clientList">
+						  <button type="button" class="btn btn-default" id="cSears" onclick=showClient()>Sears</button>
+						  <button type="button" class="btn btn-default"  id="cGrainger" onclick=showClient() >Grainger</button>
+						  <button type="button" class="btn btn-default"  id="cBB" onclick=showClient()>Best Buy</button>
+						</div>
+                    
+                    </div>
+                    <!-- 
+					<div class="col-md-2">
+						<div class="list-group" id="clientList">
+							<a class="list-group-item"  href="#">Sears</a>
+							<a class="list-group-item"href="#">Grainger</a>
+							<a class="list-group-item" href="#">Best Buy</a>
+						
+						</div>
+					</div>
+					-->
+					
+					<div class="row">
+					<iframe id="clientFrame" width="900" height="800" seamless></iframe>
+					</div>
+					
+					
+					</div>    
+                    
+                    <div class="tab-pane" id="practice">
+                    <h2>SAP Practice</h2>
+                    Client Focus: Our clients are large multinational companies, which have selected SAP as their enterprise foundation. These companies have a common and particular set of needs and opportunities. When we first engage, our clients are typically undergoing a period of significant change driven by M&A activity, market upheaval or new legislation. Most often, change has already started to happen at a structural level and our first task is to rapidly transform back office systems and processes to catch up and form a foundation for the future; subsequent transformation programs are then used to deliver additional benefits and ultimately to provide competitive advantage.<br /><br />
+
+SAP Leverage: Large companies, which have selected SAP, have done so because they recognize the value and differentiation that the best ERP application in the market can provide. In fact, a generic approach to ERP dilutes the value that an SAP customer has paid for. PETERSON TECHNOLOGY PARTNERS is totally focused on delivering the value that SAP is uniquely able to provide, whilst taking account of its limitations and of the potential of complementary applications. Our approach is to leverage and work with the delivered functionality, not to work around or redevelop it. This requires a deep and up to date understanding of exactly what SAP can and can't deliver. This approach ensures that as both SAP's product offering and a client's particular scope are extended and developed, maximum benefit can be derived at minimum cost and timescale.<br /><br />
+
+Services Integration: Whilst our chosen tool is SAP, our objective is to deliver business benefit. Fundamental to our approach is the provision of a project team, methodology and toolkit to support the delivery of a business transformation as opposed to simply a configured system. Increasingly, the configured system is largely delivered through our industry blueprint program and our real task is to introduce our clients to best practice processes rather than to design new ones. Whilst a deep understanding of SAP is absolutely vital for this integrated approach, so is a clear recognition that the technology is a means to an end. That end is to inform and empower business leaders to enable them to formulate and execute their strategies as cost effectively and quickly as possible.<br /><br />
+
+Adherence to these principles has enabled us to create a company that leads our industry in terms of Innovation, Business Benefit and Delivery. 
+                    </div>    
+                    
+                    <div class="tab-pane" id="resources">
+                    <h2>SAP Resources</h2>
+                    There are a number of the key aspects to our culture that our customers highlight and value:<br />
+<br />
+
+
+Delivery - IT Projects and Consultancies have been stigmatized due to failures and delays. Our consultants are valued and remunerated on their ability to deliver on time and within budget.<br />
+<br />
+
+
+Partnership - Many of clients value the way we very rapidly integrate with their project team and business such that one integrated project team forms a close bond with no separation or barriers between the client and PETERSON TECHNOLOGY PARTNERS resources. In addition, we have low staff turnover in our SAP practice, and aim to provide continuity of resources for the length of our relationship. Our small but highly experienced teams provide real business and SAP best-practice guidance and leadership but need the client team to work with us for success. Our approach is to 'do it with you' as opposed to 'do it to you'.
+<br />
+<br />
+
+Integrated Approach - PETERSON TECHNOLOGY PARTNERS is uniquely positioned to provide a total service to organizations using SAP as their core system. In order to provide this we must offer a combination of skills and services beyond good SAP expertise. These being:
+<br />
+<br />
+
+    Benefits Realization and Change Management - PETERSON TECHNOLOGY PARTNERS work with many organizations to help them define their technology and business strategies. More importantly, we understand how to realistically deliver any strategy proposed
+    SAP Delivery - We are an experienced delivery partner
+<br />
+<br />
+
+Investment in our People
+<br />
+<br />
+
+PETERSON TECHNOLOGY PARTNERS has assembled one of the most experienced team of SAP professionals in the country. Our employees are attracted to a company entirely focused on the needs of organizations that had selected SAP. PETERSON TECHNOLOGY PARTNERS recruits only the very best individuals recommended by word of mouth and rigorous selection criteria. This focus on experience is shown in the diagram overleaf.
+<br />
+<br />
+
+Our team implements and supports all SAP modules and related technologies - including the latest mySAP technologies in the area of Enterprise , CRM, BW, SRM, APO , Enterprise Portals, and Mobile Engine. We also have broad integration experience with integration solutions such as webMethods
+<br />
+<br />
+
+It is only by having a pool of such staff available that economies of scale are enabled and our clients can be assured that problems associated with staff shortages, training needs, illness and specific SAP skills deficits are no longer a problem for our clients.
+
+
+                    </div>   
+                    
+                    <div class="tab-pane" id="tech">
+                    	
+          <tbody><tr>
+            <td valign="top"><div align="justify"><h3>Broad Technology </h3></div></td>
+          </tr>
+          <tr>
+            <td valign="top"><div align="justify">
+                <p class="content">PETERSON TECHNOLOGY PARTNERS have a strong track history of managing integration into mixed technology solutions – We implementing and supporting over 60 different technologies. Our breadth of technical architecture expertise is shown in the table below.</p>
+                <table class="content" bgcolor="#f1f1f1" cellpadding="10" cellspacing="1">
+                  <tbody><tr bgcolor="#FFFFFF">
+                    <td valign="top" width="160"><p align="center"><strong><em>Solutions </em></strong></p></td>
+                    <td valign="top" width="316"><p align="center"><strong><em>Breadth of experience </em></strong></p></td>
+                  </tr>
+                  <tr bgcolor="#FFFFFF">
+                    <td valign="top" width="160"><p>ERP systems </p></td>
+                    <td valign="top" width="316"><p align="justify">Experts in the implementation and support of all SAP technologies including all R/3 modules and the mysap components EBP, SRM, SAPMarkets, BW, CRM, PLM, APO and enterprise portals<br>
+                      <br>
+                      In addition we have project management, business process and technical integration experience of the following ERP solutions: Oracle, JDE, Baan, Maximo and Sun </p>                    </td>
+                  </tr>
+                  <tr bgcolor="#FFFFFF">
+                    <td valign="top" width="160"><p>Web Applications </p></td>
+                    <td valign="top" width="316"><p align="justify">CommerceOne, BroadVision, BEA Weblogic, Silverstream, Intershop, Iplanet. </p>                    </td>
+                  </tr>
+                  <tr bgcolor="#FFFFFF">
+                    <td valign="top" width="160"><p>Catalogue Tools </p></td>
+                    <td valign="top" width="316"><p>Requisite, CommerceOne Buysite, Poet, bespoke databases </p></td>
+                  </tr>
+                  <tr bgcolor="#FFFFFF">
+                    <td valign="top" width="160"><p>Integration Software </p>                    </td>
+                    <td valign="top" width="316"><p>WebMethods, MQSI, Vitria, SeeBeyond, Crossworlds, Iplanet. </p></td>
+                  </tr>
+                  <tr bgcolor="#FFFFFF">
+                    <td valign="top" width="160"><p>Message format experience </p>                    </td>
+                    <td valign="top" width="316"><p align="justify">EDI Formats; ANSI X12, EDIFACT, TRADACOM, VDA, Bespoke EDI (ODES-COPS) <br>
+                      <br>
+                      XML Formats; xCBL, cXML, RosettaNet, SAP-XML, <br>
+                      <br>
+                    SAP Formats; IDOC, BAPI, RFC, Flat Files, Bespoke Interfaces </p>                    </td>
+                  </tr>
+                  <tr bgcolor="#FFFFFF">
+                    <td valign="top" width="160"><p>Software Languages </p>                    </td>
+                    <td valign="top" width="316"><p>ABAP, Java, J2EE, Javascript, C++, VB, HTML </p></td>
+                  </tr>
+                  <tr bgcolor="#FFFFFF">
+                    <td valign="top" width="160"><p>Hardware Platforms </p>                    </td>
+                    <td valign="top" width="316"><p>Sun, IBM, HP, Dell, DEC, Compaq, Siemens </p></td>
+                  </tr>
+                  <tr bgcolor="#FFFFFF">
+                    <td valign="top" width="160"><p>Operating Systems </p></td>
+                    <td valign="top" width="316"><p>Unix, AIX, Windows NT / 2000 </p></td>
+                  </tr>
+                  <tr bgcolor="#FFFFFF">
+                    <td valign="top" width="160"><p>Database Management Systems </p>                    </td>
+                    <td valign="top" width="316"><p>Oracle, Informix , MS -SQL, DB2, Sybase, SQL server. </p></td>
+                  </tr>
+                  <tr bgcolor="#FFFFFF">
+                    <td valign="top" width="160"><p>Enterprise Management </p>                    </td>
+                    <td valign="top" width="316"><p>SAP Solutions Manager, BMC Patrol and IBM Tivoli. </p></td>
+                  </tr>
+                </tbody></table>
+                </div></td>
+          </tr>
+        </tbody>
+                    </div>
+                    <div class="tab-pane" id="contact">
+                        <h3> Contact us</h3>
+                        Headquarters (Chicago)
+                        
+                        Peterson Technology Partners
+                        1600 Golf Road, Suite 1206
+                        Rolling Meadows , IL . 60008
+                        
+                        Phone: 1-800-948-9194 (Within US)
+                        
+                        Local: 1-847-981-5151
+                        Email: info@ptechpartners.com	
+                    </div>
+            	</div>
+        	
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

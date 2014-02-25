@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html ng-app="EmployeeAngular">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+<link rel="stylesheet" href="css/bootstrap.css" >
+
+<script src="js/jquery-2.1.0.min.js"></script>
+<script src="js/jquery.form-validator.min.js"></script>
+<script src="js/tab.js"></script>
+<script src="js/jquery.slides.min.js"></script>
+<script src="js/angular.min.js"></script>
+
+<!--  My Scripts -->
+<script src="js/indexScript.js"></script>
+<script src="js/ngScript.js"></script>
+</head>
+<body ng-controller="SampleController">
+<input type="text" ng-model="welcomeMsg" id="textBox">
+{{newMessage}}
+<br>
+<button type="button" id="someButton" ng-click="clickButton()">Test</button>
+<ul>
+<li ng-repeat="item in newVar">{{item}}</li> 
+</ul>
+<select ng-model="dropDown" ng-change="selectDropDown({{index}})" ng-options="value for value in newVar">
+
+</select>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<div class="panel panel-default col-md-3"  ng-controller="MainController">
+	<div class="panel-heading">{{person.role}}</div>
+	<div class="panel-body">
+		{{person.name}} <br>
+		<ul class="list-group">
+			<li class="list-group-item list-group-item-info">Projects:</li>
+			<li class="list-group-item"
+				ng-repeat="job in person.project">{{job}} <span
+				class="badge" ng-click="removeProject(person.id,job)">x</span>
+			</li>
+		</ul>
+		<!--  Add project -->
+		<div class="input-group">
+			<input type="text" class="form-control" ng-model="newProject"
+				placeholder="Add Project"> <span class="input-group-btn">
+				<button class="btn btn-default" type="button"
+					ng-click="addProject(person.id,newProject)">Add</button>
+			</span>
+		</div>
+		<!-- /input-group -->
+
+	</div>
+</div>

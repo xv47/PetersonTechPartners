@@ -1,0 +1,10 @@
+@CHARSET "ISO-8859-1";
+.MANAGER{
+	background-color: #FC0 !important;
+}
+.DEVELOPER{
+	background-color: #CFC !important;
+}
+.QA{
+	background-color: #0CF !important;
+}

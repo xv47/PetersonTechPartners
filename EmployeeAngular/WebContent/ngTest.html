@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html ng-app="ngTest">
+<head>
+<meta charset="ISO-8859-1">
+<title>Testing NG Tags</title>
+<link rel="stylesheet" href="css/ngTest.css">
+
+<script src="js/jquery-2.1.0.min.js"></script>
+<script
+	src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+<script src="js/sampleScript.js"></script>
+</head>
+<body>
+	<div>
+		<h3>ngHref</h3>
+		<input type="text" ng-model="myHref"><br> Search Google
+		for: <a ng-href="https://www.google.com/#q={{myHref}}">{{myHref}}</a>
+	</div>
+	<hr>
+	<div>
+		<h3>ngSrc</h3>
+		<input type="text" ng-model="mySrc"><br> Type in <i>duck.jpg</i>
+		to show the picture:<br> <img ng-src="img/{{mySrc}}" width="400">
+	</div>
+	<hr>
+	<div>
+		<h3>ngDisabled</h3>
+		Click to toggle: <input type="checkbox" ng-model="checked"><br>
+		<button ng-disabled="!checked">Press Me</button>
+	</div>
+	<hr>
+	<div>
+		<h3>ngChecked</h3>
+		Press to check: <input type="checkbox" ng-model="checker"><br>
+		<input type="checkbox" ng-checked="checker">some checkbox<br>
+	</div>
+	<hr>
+	<div>
+		<h3>ngReadonly</h3>
+		<input type="checkbox" ng-model="readOnly">Make read only<br>
+		<input type="text" ng-readonly="readOnly" value="My Text">
+	</div>
+	<hr>
+	<div>
+		<h3>ngSelected</h3>
+		<input type="checkbox" ng-model="selectSpecial">Select an
+		option<br> <select>
+			<option>First</option>
+			<option>Second</option>
+			<option ng-selected="selectSpecial">Third</option>
+			<option ng-selected="selectSpecial">Fourth</option>
+		</select>
+	</div>
+	<hr>
+	<div>
+		<!-- *? -->
+		<h3>ngChange</h3>
+		<div ng-controller="Controller">
+			<input type="checkbox" ng-model="confirmed" ng-change="change()"
+				id="ng-change-example1" />
+			<tt>counter = {{counter}}</tt>
+			<br />
+		</div>
+	</div>
+	<hr>
+	<div>
+		<h3>ngList</h3>
+		<div ng-controller="Lister">
+			<input type="text" ng-model="cities" ng-list>
+		</div>
+	</div>
+	<hr>
+	<!--  *? -->
+	<div ng-controller="valueChoices">
+		<h3>ngValue</h3>
+		<label ng-repeat="name in names" for="{{name}}">  <input
+			type="radio" ng-value="name" id="{{name}}"
+			name="randomstring">{{name}}<br>
+		</label> 
+		You chose {{my}}
+	</div>
+	<hr>
+	<div>
+		<h3>ngBind</h3>
+		Food: <input type="text" ng-model="favFood"><br>
+		I like to eat <span ng-bind="favFood"></span>
+	</div>
+	<hr>
+	<div>
+		<h3>ngBind Template</h3>
+		<input type="text" ng-model="temp1"><br>
+		<input type="text" ng-model="temp2"><br>
+		<strong>{{temp1}} {{temp2}}</strong>
+		<strong ng-bind-template="{{temp1}} {{temp2}}"></strong>
+	</div>
+	<hr>
+	<!--  ?? -->
+	<div ng-controller="bindHTML">
+		<h3>ngBind HTML</h3>
+		<p ng-bind-html="myHTML"></p>
+	</div>
+	<hr>
+	<div>
+		<h3>ngClass</h3>
+		Type in <pre>red</pre> or <pre>big</pre>
+		<input type="text" ng-model="role" placeholder="Type in some style"><br>
+		<p ng-class="role">Sample Text</p>
+	</div>
+	<hr>
+	<div>
+		<h3> ng class even and odd</h3>
+		<ul ng-init="cities=['new york', 'london', 'dubai', 'giza', 'sydney', 'caracas']">
+			<li ng-repeat="city in cities"><div ng-class-even="'red'" ng-class-odd="'big'">{{city}}</div></li>
+		</ul>
+	</div>
+	<!--  ng cloak??? -->
+	<hr>
+	<div ng-controller="blurFocus">
+		<h3> ngBlur and ngFocus </h3>
+		<pre> This doesn't work for some reason?</pre>
+		<input type="text" ng-blur="doBlur()" ng-focus="doFocus()" ng-class="bfClass"><br>
+		
+	</div>
+	<hr>
+	<div ng-controller="blurFocus">
+		<h3>ngHide and ngShow</h3>
+		<input type="checkbox" ng-model="v"><br>
+			<div ng-hide="v"><form >
+			<button type="button" ng-click="press()">my button</button>
+			</form>
+			</div>
+		<div ng-show="v">Please wait. Loading...</div>
+	</div>
+	<hr>
+	<div ng-controller="switchCtrl">
+		<h3> ngSwitch </h3>
+		<select ng-model="switcher" ng-change="switchOn(switcher)" ng-options="time for time in seasons">
+		
+		</select>
+		{{showText}}
+	</div>
+</body>
+</html>
