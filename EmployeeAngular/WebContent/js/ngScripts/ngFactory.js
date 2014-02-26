@@ -14,6 +14,21 @@ app
 									.post("http://localhost:8080/EmployeeAngular/UserAggregate");
 
 						},
+						sendLogin: function(email,password){
+							var requestData = {
+									"email" : email,
+									"password" : password};
+							return
+								$http.post("http://localhost:8080/EmployeeAngular/Login",
+										$.param(requestData),
+										{
+											headers : {
+												'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8'
+											}
+										});
+							
+							
+						},
 						// Send data for registration to servlet:
 						uploadRegister : function(employeeData) {
 							var requestData = angular.toJson(employeeData);

@@ -11,6 +11,7 @@ if ($.cookie("email") == undefined) {
  * Deprecated with factory
  * 
  */
+/*
 function joinGroup(g) {
 	if (g.length > 0) {
 		$.ajax({
@@ -25,6 +26,7 @@ function joinGroup(g) {
 		});
 	}
 }
+*/
 function approveUser(u) {
 	$.ajax({
 		type : 'POST',
@@ -94,12 +96,14 @@ function func(index) {
 }
 $(document).ready(
 	function() {
+		/*
 		$.post("JoinGroupServlet", function(data) {
 			if (data.message == "invalid") {
 				alert("Group is not real");
 			}
 
 		});
+		*/
 		$.validate({
 			validateOnBlur : false, // disable validation when input
 			// looses focus
@@ -114,32 +118,35 @@ $(document).ready(
 		$("#alertEmpRejectedSuccess").hide();
 		$("#regGroups").hide();
 		$("#approval").hide();
+		$('#login-info').hide();
 		$.post("http://localhost:8080/EmployeeAngular/Console",
 			function(data) {
 				var jObj = eval("(" + data + ")");
 				group = jObj[1];
 				userGroup = jObj[2];
 				UserToApprove = jObj[3];
-				console.log(userGroup);
+				//console.log(userGroup);
 				// Set the Cookie:
 				// $.cookie("email",jObj[0].email);
 
 				$("#login-info").hide();
-		
+				$("#loadingModal").modal('hide');
 				
 				
-			
+				
 				if ((String(jObj[0].role) == "DEVELOPER")
 						|| (jObj[0].role == "QA")) {
 
 					$("#CreateGroupHeading").text(
-							"Join Group");
-					$("#GroupButton").text("Join");
-					$("#doGroup").removeAttr("action");
-					$("#doGroup").attr(	"onclick",	joinGroup($("#groupCname").val()));
+							"Groups");
+					$("#regGroups").show();
+					//$("#GroupButton").text("Join");
+					//$("#doGroup").removeAttr("action");
+					//$("#doGroup").attr(	"onclick",	joinGroup($("#groupCname").val()));
 					
 					
 				}
+				
 				if (jObj[0].admin == "true") {
 
 					$("#approvalTab").show();

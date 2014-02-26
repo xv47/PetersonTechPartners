@@ -6,13 +6,16 @@ import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Logger;
 
 import com.peterson.employee.Employee;
+import com.peterson.employee.UploadFileControl;
 
 /**
  * Servlet implementation class Register
@@ -20,7 +23,7 @@ import com.peterson.employee.Employee;
 @WebServlet(name="Register", urlPatterns={"/Register"})
 public class Register extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+    Logger logger = Logger.getLogger(Register.class);   
    
 
 	/**
@@ -35,7 +38,8 @@ public class Register extends HttpServlet {
 		RequestDispatcher rs;
 		
 		String email=new String(), pass1 = new String(), pass2 = new String(), fname=new String(),lname=new String(),
-				street=new String(), city=new String(), state=new String(),role=new String();
+				street=new String(), city=new String(), state=new String(),role=new String(),imgPath = new String();
+		
 		
 		email = request.getParameter("email");
 		pass1 = request.getParameter("pass1");
@@ -49,6 +53,20 @@ public class Register extends HttpServlet {
 		Integer zip = Integer.parseInt(request.getParameter("zip"));
 		role = request.getParameter("role");
 		
+		String emailHash = UploadFileControl.nameHash(email);
+		
+		Cookie[] cookies = request.getCookies();							
+		
+		String imgName = null;
+		
+		for(Cookie cookie : cookies){
+		    if("imgName".equals(cookie.getName())){
+		        imgName = cookie.getValue();
+		    }
+		}
+		
+		logger.info("Profile image name: " + imgName);
+		imgPath = "/EmpPics/" + emailHash + "/" + imgName ;	
 		
 		
 		if(!pass1.equals(pass2)){
@@ -56,10 +74,19 @@ public class Register extends HttpServlet {
 			rs = request.getRequestDispatcher("login.html");
 			rs.include(request, response);
 		}else{
-			if(Validate.registerUser(email, pass1, fname, lname, street, city, state, zip, role)){
+			////////////////////////////////////////////////////////////////////////////////////////
+			//
+			// 02/15/2014
+			//
+			// Uncomment the following block to allow records to be added to the database
+			//
+			////////////////////////////////////////////////////////////////////////////////////////
+			
+			if(Validate.registerUser(email, pass1, fname, lname, street, city, state, zip, role,imgPath)){
 				Employee emp = Validate.createEmployee(email);
+				
 				Validate.sendObject(emp);
-				rs = request.getRequestDispatcher("console.jsp");
+				rs = request.getRequestDispatcher("console.html");
 				rs.include(request, response);
 			}
 			else{
@@ -68,6 +95,8 @@ public class Register extends HttpServlet {
 				rs = request.getRequestDispatcher("login.html");
 				rs.include(request, response);
 			}
+			
+			
 		}
 	}
 

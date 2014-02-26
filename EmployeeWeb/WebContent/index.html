@@ -11,31 +11,13 @@
 <script src="js/tab.js"></script>
 <script src="js/jquery.slides.min.js"></script>
 <script src="js/jquery.colorbox-min.js"></script>
-<script>
-$(document).ready(function(){
-	$.validate({
-		validateOnBlur : false, // disable validation when input looses focus
-    	errorMessagePosition : 'top', // Instead of 'element' which is default
-   		scrollToTopOnError : true // Set this property to true if you have a long form
-	});
-	$("#tabs").tab();
-	$("#slides").slidesjs({
-        width: 940,
-        height: 528,
-		navigation: false
-      });
-	  
-	  $("#loginButton").colorbox({
-		  href: "login.html"
-	  });
-	
-});
-</script>
+<script src="js/indexScript.js"></script>
 <style>
 #slides{
 	height: 300px;
 	overflow:hidden;
 }
+
 </style>
 </head>
 <body>
@@ -46,17 +28,16 @@ $(document).ready(function(){
         </div>
     </div>
 	<div class="row">
-    <div id="slides">
-    <img src="img/Office-9.jpg"/>
-    <img src="img/duck.jpg" />
-    </div>
+    
+    <img src="img/office1.jpg"/>
+    
     
     </div>
     <div class="row">
         <div class="col-md-3">
         <ul class="nav nav-tabs nav-pills nav-stacked" id="tabs" data-tabs="tabs">
         	<li class="active"><a href="#home" data-toggle="tab">Home</a></li>
-            <li><a href="#login" data-toggle="tab">login</a></li>
+            
             <li><a href="#clients" data-toggle="tab">Clients</a></li>
             <li><a href="#practice" data-toggle="tab">SAP Practice</a></li>
             <li><a href="#resources" data-toggle="tab">SAP Resources</a></li>
@@ -74,7 +55,32 @@ $(document).ready(function(){
     </p><p>
     The Company has built its reputation as a leading facilitator of change by employing the best consultants and partnering with leading business and technology companies to deliver complete business solutions. Over the last seven years, PETERSON TECHNOLOGY PARTNERS has evolved from an implementation consultancy into a full service provider that meets all the Business Consulting, Solutions Implementation and Applications Management needs of large organizations needing to deliver against their business strategy. </p>
                     </div>
-                    <div class="tab-pane" id="clients">client stuff</div>    
+                    <div class="tab-pane" id="clients">
+                    <div class="row">
+	                    <div class="btn-group" id="clientList">
+						  <button type="button" class="btn btn-default" id="cSears" onclick=showClient()>Sears</button>
+						  <button type="button" class="btn btn-default"  id="cGrainger" onclick=showClient() >Grainger</button>
+						  <button type="button" class="btn btn-default"  id="cBB" onclick=showClient()>Best Buy</button>
+						</div>
+                    
+                    </div>
+                    <!-- 
+					<div class="col-md-2">
+						<div class="list-group" id="clientList">
+							<a class="list-group-item"  href="#">Sears</a>
+							<a class="list-group-item"href="#">Grainger</a>
+							<a class="list-group-item" href="#">Best Buy</a>
+						
+						</div>
+					</div>
+					-->
+					
+					<div class="row">
+					<iframe id="clientFrame" width="900" height="800" seamless></iframe>
+					</div>
+					
+					
+					</div>    
                     
                     <div class="tab-pane" id="practice">
                     <h2>SAP Practice</h2>

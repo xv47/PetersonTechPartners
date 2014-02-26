@@ -1,4 +1,5 @@
-var app = angular.module("ptech",['ngRoute','ngCookies']);
+var app = angular.module("ptech",['ngRoute','ngCookies','ui.bootstrap']);
+
 
 app.config(['$routeProvider',
    function($routeProvider){

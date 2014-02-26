@@ -18,10 +18,11 @@ public class Employee {
 	public String state = new String();
 	public int zipCode = 0;
 	public String email = new String();
+	public String img = new String();
 	
 	public Role employeeRole;
 	
-	public Employee(String fName, String lName, Role role, String street, String city, String state, int zip, String email){		
+	public Employee(String fName, String lName, Role role, String street, String city, String state, int zip, String email, String img){		
 		firstName = fName;
 		lastName = lName;
 		employeeRole = role;
@@ -30,7 +31,8 @@ public class Employee {
 		this.city = city;
 		this.state = state;
 		this.zipCode = zip;
-		this.email = email;		
+		this.email = email;	
+		this.img = img;
 
 	}
 

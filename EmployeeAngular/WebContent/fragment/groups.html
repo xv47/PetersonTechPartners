@@ -1,7 +1,7 @@
 <div ng-controller="groupCtrl">
 	<div class="panel panel-default">
 		<div class="panel-heading" id="CreateGroupHeading">Create Group</div>
-		<div class="panel-body">
+		<div class="panel-body" ng-show="isManager">
 			<form class="form-inline" action="CreateGroupServlet" method="post"
 				id="doGroup">
 				<div class="form-group">
@@ -26,23 +26,10 @@
 						</div>
 					</div>
 
-					<!-- 
-											<div id='regGroups'>
-												<table class='table'>
-													<tr>
-														<th>Name</th>
-														<th>Manager</th>
-														<th>Completed</th>
-													</tr>
-													<tr>
-														<td>{{emp[2].name}}</td>
-														<td>{{emp[2].mgr}}</td>
-														<td>{{emp[2].completed}}</td>
-													</tr>
-												</table>
-											</div>
-											
-											-->
+
+
+
+
 
 
 					<!--  Modal for groups that a manager is in charge of -->
@@ -91,6 +78,21 @@
 					</div>
 					<!--  End Modal -->
 				</div>
+					<div ng-hide="isManager">
+						<table class='table'>
+							<tr>
+								<th>Name</th>
+								<th>Manager</th>
+								<th>Completed</th>
+							</tr>
+							<tr>
+								<td>{{emp[2].name}}</td>
+								<td>{{emp[2].mgr}}</td>
+								<td>{{emp[2].completed}}</td>
+							</tr>
+						</table>
+					</div>				
+				
 
 			</div>
 		</div>

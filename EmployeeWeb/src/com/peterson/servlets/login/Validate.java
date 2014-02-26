@@ -23,47 +23,23 @@ import org.json.simple.JSONObject;
 
 import com.peterson.employee.Developer;
 import com.peterson.employee.Employee;
+import com.peterson.employee.Employee.Role;
 import com.peterson.employee.Manager;
 import com.peterson.employee.QA;
+import com.peterson.util.MySQL;
 
-public class Validate {
-	private static String host = "jdbc:mysql://localhost/userdb";
-	private static String user = "edward";
-	private static String pass = "";
-	private static String table = "employee";
-	private static Connection con;
+public class Validate{
+	protected static String host = "jdbc:mysql://localhost/userdb";
+	protected static String user = "edward";
+	protected static String pass = "";
+	protected static String table = "employee";
+	protected static Connection con;
+	
 	private static Logger logger = Logger.getLogger(Validate.class);
 
 	public static void init() {
 		BasicConfigurator.configure();
 	}
-	public static int getID(String email){
-		int st = 0;
-
-		try {
-			connectDB();
-
-			PreparedStatement ps = con.prepareStatement("SELECT * FROM "
-					+ table + " WHERE email=?");
-			ps.setString(1, email);
-
-			ResultSet rs = ps.executeQuery();
-
-			if (rs.next()) {
-				st = rs.getInt("id");
-			} else {
-				logger.error("Record for " + email + " not found");	
-				st = 0;
-			}
-
-		} catch (Exception e) {
-			logger.error("Error getting user " + email + ": " + e.toString());
-			e.printStackTrace();
-		}
-
-		return st;
-	}
-	
 	public static void connectDB() throws ClassNotFoundException, SQLException {
 
 		// load MySQL driver
@@ -81,7 +57,35 @@ public class Validate {
 			e.printStackTrace();
 		}
 	}
-	 
+	public static int getID(String email) {
+		int st = 0;
+
+		try {
+			connectDB();
+
+			PreparedStatement ps = con.prepareStatement("SELECT * FROM "
+					+ table + " WHERE email=?");
+			ps.setString(1, email);
+
+			ResultSet rs = ps.executeQuery();
+
+			if (rs.next()) {
+				st = rs.getInt("id");
+			} else {
+				logger.error("Record for " + email + " not found");
+				st = 0;
+			}
+
+		} catch (Exception e) {
+			logger.error("Error getting user " + email + ": " + e.toString());
+			e.printStackTrace();
+		}
+
+		return st;
+	}
+
+	
+
 	public static boolean isActive(String email) {
 		boolean st = false;
 
@@ -116,6 +120,7 @@ public class Validate {
 
 		return st;
 	}
+
 	public static boolean isAdmin(String email) {
 		boolean st = false;
 
@@ -150,33 +155,36 @@ public class Validate {
 
 		return st;
 	}
-	public static int getGID(String email){
+
+	public static int getGID(String email) {
 		int st = 0;
 
-			try {
-				connectDB();
+		try {
+			connectDB();
 
-				PreparedStatement ps = con.prepareStatement("SELECT * FROM "
-						+ table + " WHERE email=?");
-				ps.setString(1, email);
+			PreparedStatement ps = con.prepareStatement("SELECT * FROM "
+					+ table + " WHERE email=?");
+			ps.setString(1, email);
 
-				ResultSet rs = ps.executeQuery();
+			ResultSet rs = ps.executeQuery();
 
-				if (rs.next()) {
-					st = rs.getInt("gID");
-				} else {
-					logger.error("Record for " + email + " not found");	
-					st = 0;
-				}
-
-			} catch (Exception e) {
-				logger.error("Error getting user " + email + ": " + e.toString());
-				e.printStackTrace();
+			if (rs.next()) {
+				st = (int)rs.getLong("gID");
+				logger.info("Employee group id is: " + st);
+			} else {
+				logger.error("Record for " + email + " not found");
+				st = 0;
 			}
 
-			return st;
-		
+		} catch (Exception e) {
+			logger.error("Error getting user " + email + ": " + e.toString());
+			e.printStackTrace();
+		}
+
+		return st;
+
 	}
+
 	public static boolean checkUser(String email, String password) {
 		boolean st = false;
 		if ((email.equals("") || email == null)
@@ -210,75 +218,166 @@ public class Validate {
 		}
 		return st;
 	}
-	public static String createJSONArray(String email){
+
+	public static String createJSONArray(String email) {
 		String arr = new String();
+		Employee e = Validate.createEmployee(email);
 		JSONArray jArray = new JSONArray();
-		if(!Validate.isAdmin(email)){
-			Employee e = Validate.createEmployee(email);			
-		
-			JSONObject emp = new JSONObject();
-			
-			emp.put("fname", e.firstName);
-			emp.put("lname", e.lastName);
-			emp.put("street", e.street);
-			emp.put("city", e.city);
-			emp.put("state", e.state);
-			emp.put("zip", Integer.toString(e.zipCode));
-			emp.put("role", e.employeeRole.toString());
-			emp.put("email", email);
-			emp.put("admin", "true");
-			
-			JSONArray mGroup = new JSONArray();
-			JSONObject mGroupObj = new JSONObject();
-			try{
+
+		JSONObject emp = new JSONObject();
+
+		emp.put("fname", e.firstName);
+		emp.put("lname", e.lastName);
+		emp.put("street", e.street);
+		emp.put("city", e.city);
+		emp.put("state", e.state);
+		emp.put("zip", Integer.toString(e.zipCode));
+		emp.put("role", e.employeeRole.toString());
+		emp.put("email", email);
+		emp.put("admin", String.valueOf(isAdmin(email)));
+		emp.put("img", e.img);
+
+		JSONArray mGroup = new JSONArray();
+		JSONObject mGroupObj = new JSONObject();
+
+		JSONArray mGroupEmployee = new JSONArray();
+		if (e.employeeRole == Role.MANAGER) {
+			try {
 				connectDB();
 				int mID = getID(email);
-				PreparedStatement ps = con.prepareStatement("SELECT * FROM userdb.group WHERE mID=?");
+				int groupID = 0;
+				PreparedStatement ps = con
+						.prepareStatement("SELECT * FROM userdb.group WHERE mID=?");
 				ps.setLong(1, mID);
 
 				ResultSet rs = ps.executeQuery();
-				while(rs.next()){
-					mGroupObj.put("name", rs.getObject("name"));
-					mGroup.add(mGroupObj);	
+				while (rs.next()) {
+					mGroupObj.put("name", rs.getString("name"));
+					mGroupObj.put("id", rs.getInt("id"));
+					mGroup.add(mGroupObj);
 					mGroupObj = new JSONObject();
 				}
-				
-			}catch(Exception ee){
-				logger.error(ee.toString());
-			}
-			
-			JSONObject group = new JSONObject();
-			try{
-				connectDB();
-				int gID = getGID(email);
-				PreparedStatement ps = con.prepareStatement("SELECT * FROM userdb.group WHERE id=?");
-				ps.setLong(1, gID);
 
-				ResultSet rs = ps.executeQuery();
-				while(rs.next()){
-					group.put("name", rs.getObject("name"));
-										
-				}
-				
-			}catch(Exception ee){
+			} catch (Exception ee) {
 				logger.error(ee.toString());
 			}
-			
-			jArray.add(emp);
-			jArray.add(mGroup);
-			jArray.add(group);
-			
-			arr =  jArray.toJSONString();
 		}
+		//Get groups for Dev and QA
+		JSONObject group = new JSONObject();
+		try {
+			connectDB();
+			int gID = getGID(email);
+			logger.info("Getting group id: " + gID);
+			PreparedStatement ps = con.prepareStatement("SELECT * FROM userdb.group WHERE id=?");
+			ps.setLong(1, gID);
+
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				group.put("name", rs.getString("name"));
+				group.put("mgr", getEmpName((int) rs.getLong("mID")));
+				group.put("completed", rs.getLong("complete"));
+
+			}
+		logger.info(group.toJSONString());
+		} catch (Exception ee) {
+			logger.error(ee.toString());
+		}
+
+		// Array Order:
+		// 1) Personal info
+		// 2) Managers Group settings
+		// 3) Dev/QA Group memebership
+		// 4) Admin Users to approve
+		//
+		jArray.add(emp);
+		jArray.add(mGroup);
+		jArray.add(group);
+
+		if (Validate.isAdmin(email)) {
+
+			JSONArray adminUsers = new JSONArray();
+			JSONObject adminUser = new JSONObject();
+			// Not looping here?
+			try {
+				connectDB();
+				logger.info("Checking if user is admin for JSON Array");
+				if (isAdmin(email)) {
+					logger.info("User is admin. Fetching inactive users for population");
+					PreparedStatement ps = con
+							.prepareStatement("SELECT * FROM userdb.employee WHERE active=?");
+					ps.setLong(1, 0);
+
+					ResultSet rs = ps.executeQuery();
+					while (rs.next()) {
+						adminUser.put("id", rs.getLong("id"));
+						adminUser.put("fname", rs.getString("fname"));
+						adminUser.put("lname", rs.getString("lname"));
+						adminUser.put("street", rs.getString("street"));
+						adminUser.put("city", rs.getString("city"));
+						adminUser.put("state", rs.getString("State"));
+						adminUser.put("zip", (int) rs.getLong("zip"));
+						adminUser.put("role", rs.getString("role"));
+						adminUser.put("img", rs.getString("img"));
+						adminUser.put("email", email);
+						adminUsers.add(adminUser);
+						adminUser = new JSONObject();
+
+					}
+					jArray.add(adminUsers);
+				}
+
+			} catch (Exception er) {
+				logger.error(er.toString());
+			}
+		}
+		arr = jArray.toJSONString();
 		return arr;
 	}
-	
-public static String createJSONEmp(String email){
+
+	public static boolean approveUser(int id) {
+		boolean b = false;
+		try {
+			connectDB();
+			logger.info("Querying for Employee to Approve");
+
+			PreparedStatement ps = con
+					.prepareStatement("UPDATE userdb.employee SET active=? WHERE id=?");
+			ps.setLong(1, 1);
+			ps.setLong(2, id);
+			// Uncomment to make it do stuff:
+			ps.execute();
+			b = true;
+		} catch (Exception e) {
+			logger.error(e.toString());
+		}
+		return b;
+	}
+
+	public static boolean rejectUser(int id) {
+		boolean b = false;
+		try {
+			connectDB();
+			logger.info("Querying for Employee to Reject");
+
+			PreparedStatement ps = con
+					.prepareStatement("DELETE FROM userdb.employee WHERE id=?");
+			ps.setLong(1, id);
+
+			// Uncomment to make it do stuff:
+			ps.execute();
+			b = true;
+		} catch (Exception e) {
+			logger.error(e.toString());
+		}
+		return b;
+	}
+
+	public static String createJSONEmp(String email) {
 		Employee e = Validate.createEmployee(email);
 		String admin = Boolean.toString(Validate.isAdmin(email));
-	
+
 		JSONObject emp = new JSONObject();
-		
+
 		emp.put("fname", e.firstName);
 		emp.put("lname", e.lastName);
 		emp.put("street", e.street);
@@ -288,13 +387,13 @@ public static String createJSONEmp(String email){
 		emp.put("role", e.employeeRole.toString());
 		emp.put("email", email);
 		emp.put("admin", admin);
-		
+
 		String json = emp.toJSONString();
-		
+
 		return json;
-		
-		
+
 	}
+
 	public static boolean matchPassword(String pass1, String pass2) {
 
 		if (pass1.equals(pass2)) {
@@ -304,30 +403,28 @@ public static String createJSONEmp(String email){
 
 		}
 	}
-	public static boolean isLoggedIn(HttpServletRequest request){
+
+	public static boolean isLoggedIn(HttpServletRequest request) {
 		Cookie[] cookies = request.getCookies();
-		
-		String cookieName = "email";  
-		  
-		Cookie myCookie = null;  
-		if (cookies != null)  
-		{  
-			for (int i = 0; i < cookies.length; i++)   
-			{  
-				if (cookies [i].getName().equals (cookieName))  
-				{  
-					myCookie = cookies[i];  
-					break;  
-				}  
-			}  
-		}  
-		if(myCookie == null){
-			return false;
+
+		String cookieName = "email";
+
+		Cookie myCookie = null;
+		if (cookies != null) {
+			for (int i = 0; i < cookies.length; i++) {
+				if (cookies[i].getName().equals(cookieName)) {
+					myCookie = cookies[i];
+					break;
+				}
+			}
 		}
-		else{
+		if (myCookie == null) {
+			return false;
+		} else {
 			return true;
 		}
 	}
+
 	public static boolean doesExist(String email) {
 		boolean res = false;
 		try {
@@ -346,16 +443,18 @@ public static String createJSONEmp(String email){
 
 	public static boolean registerUser(String email, String password,
 			String fname, String lname, String street, String city,
-			String state, int zip, String role) {
+			String state, int zip, String role, String imgPath) {
 		boolean res = false;
 		if (doesExist(email)) {
 			return false;
 		} else {
 			try {
 				connectDB();
-				PreparedStatement ps = con.prepareStatement("INSERT INTO "
-						+ table + "(email,password,fname,lname,street,"
-						+ "city,state,zip,role) VALUES(?,?,?,?,?,?,?,?,?)");
+				PreparedStatement ps = con
+						.prepareStatement("INSERT INTO "
+								+ table
+								+ "(email,password,fname,lname,street,"
+								+ "city,state,zip,role,img) VALUES(?,?,?,?,?,?,?,?,?,?)");
 				ps.setString(1, email);
 				ps.setString(2, encrypt(password));
 				ps.setString(3, fname);
@@ -365,6 +464,7 @@ public static String createJSONEmp(String email){
 				ps.setString(7, state);
 				ps.setLong(8, zip);
 				ps.setString(9, role);
+				ps.setString(10, imgPath);
 
 				ps.execute();
 				res = true;
@@ -409,25 +509,28 @@ public static String createJSONEmp(String email){
 		}
 		return sb.toString();
 	}
-	public static String getEmpName(int id){
+
+	public static String getEmpName(int id) {
 		String name = new String();
-		
-		try{
+
+		try {
 			connectDB();
-			
-			PreparedStatement ps = con.prepareStatement("SELECT * FROM employee WHERE id=?");
+
+			PreparedStatement ps = con
+					.prepareStatement("SELECT * FROM employee WHERE id=?");
 			ps.setLong(1, id);
 			ResultSet rs = ps.executeQuery();
-			if(rs.next()){
+			if (rs.next()) {
 				name = rs.getString("fname") + " " + rs.getString("lname");
-			}else{
+			} else {
 				logger.info("No employee found by that id");
 			}
-		}catch(Exception e){
+		} catch (Exception e) {
 			logger.error(e.toString());
 		}
 		return name;
 	}
+
 	public static boolean isSet(Object o) {
 
 		boolean s = false;
@@ -450,6 +553,7 @@ public static String createJSONEmp(String email){
 		String city = new String();
 		String state = new String();
 		String role = new String();
+		String img = new String();
 		int zip = 0;
 		int gID = 0;
 		boolean admin = false;
@@ -474,6 +578,7 @@ public static String createJSONEmp(String email){
 				admin = rs.getBoolean("admin");
 				active = rs.getBoolean("active");
 				role = rs.getString("role");
+				img = rs.getString("img");
 			} else {
 				// Error getting record
 				logger.info("No record with email " + email);
@@ -483,11 +588,13 @@ public static String createJSONEmp(String email){
 			logger.info("Error querying database: " + e.toString());
 		}
 		if (role.equalsIgnoreCase("Manager")) {
-			return new Manager(fname, lname, street, city, state, zip, email);
+			return new Manager(fname, lname, street, city, state, zip, email,
+					img);
 		} else if (role.equalsIgnoreCase("QA")) {
-			return new QA(fname, lname, street, city, state, zip, email);
+			return new QA(fname, lname, street, city, state, zip, email, img);
 		} else if (role.equalsIgnoreCase("Developer")) {
-			return new Developer(fname, lname, street, city, state, zip, email);
+			return new Developer(fname, lname, street, city, state, zip, email,
+					img);
 		} else {
 			return null;
 		}

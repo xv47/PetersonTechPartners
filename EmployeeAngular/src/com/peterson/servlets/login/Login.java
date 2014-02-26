@@ -73,7 +73,7 @@ public class Login extends HttpServlet {
 			}
 		}
 		// ////////////////////////////////////////////////////////////
-		if (myCookie == null) {
+
 
 			String email = request.getParameter("email");
 			String password = request.getParameter("password");
@@ -96,12 +96,7 @@ public class Login extends HttpServlet {
 				rs.include(request, response);
 
 			}
-		} else{
-			logger.info("Cookie not found");
-			RequestDispatcher rs = request
-					.getRequestDispatcher("login.html");
-			rs.forward(request, response);
-		}
+
 	}
 
 }

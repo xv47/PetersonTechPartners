@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 
 import com.peterson.employee.Employee;
@@ -33,6 +34,7 @@ public class Console extends HttpServlet {
     public Console() {
         super();
         // TODO Auto-generated constructor stub
+        BasicConfigurator.configure();
     }
 
 	/**
@@ -50,6 +52,7 @@ public class Console extends HttpServlet {
 		boolean logged = Validate.isLoggedIn(request);
 		if(logged){
 			response.setContentType("text/html;charset=UTF-8");
+						
 			PrintWriter out = response.getWriter();
 			Cookie[] cookies = request.getCookies();							
 			
