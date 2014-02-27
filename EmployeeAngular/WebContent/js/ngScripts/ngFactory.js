@@ -148,3 +148,11 @@ app
 						}
 					}
 				});
+
+app.factory('timesheetFactory',function($http){
+	return{
+		getTimesheet : function(){
+			$http.post("http://localhost:8080/EmployeeAngular/FetchTimesheet");
+		}
+	}
+});

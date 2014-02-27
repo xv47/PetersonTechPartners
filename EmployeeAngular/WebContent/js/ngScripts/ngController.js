@@ -166,7 +166,7 @@ app.controller("consoleCtrl", function($scope, $http, $cookieStore,
 			} else {
 				$scope.isManager = true;
 			}
-			
+
 		});
 
 	}
@@ -231,36 +231,36 @@ app.controller("groupCtrl", function($scope, $cookieStore, groupFactory) {
  * Approval Controller
  * 
  */
-app.controller("approvalCtrl", ['$scope','approvalFactory' ,function($scope, approvalFactory) {
+app.controller("approvalCtrl", [ '$scope', 'approvalFactory',
+		function($scope, approvalFactory) {
 
-	$scope.func = function(index) {
-		var user = angular.copy($scope.emp[3][index]);
+			$scope.func = function(index) {
+				var user = angular.copy($scope.emp[3][index]);
 
-		console.log("index: " + index);
-		$("#userModal" + index).modal();
-	};
+				console.log("index: " + index);
+				$("#userModal" + index).modal();
+			};
 
-	$scope.rejectUser = function(index) {
-		var user = angular.copy($scope.emp[3][index]);
+			$scope.rejectUser = function(index) {
+				var user = angular.copy($scope.emp[3][index]);
 
-		console.log("Employee to delete: " + user.id);
-		approvalFactory.rejectUser(user.id).success(function() {
-			// Popup saying all went ewll
-		});
-		$("#userModal" + index).modal('hide');
-	};
+				console.log("Employee to delete: " + user.id);
+				approvalFactory.rejectUser(user.id).success(function() {
+					// Popup saying all went ewll
+				});
+				$("#userModal" + index).modal('hide');
+			};
 
-	$scope.approve = function(index) {
-		var user = angular.copy($scope.emp[3][index]);
+			$scope.approve = function(index) {
+				var user = angular.copy($scope.emp[3][index]);
 
-		console.log("Employee to approve: " + user1.id);
-		
+				console.log("Employee to approve: " + user1.id);
 
-		approvalFactory.approveUser(user.id);
+				approvalFactory.approveUser(user.id);
 				$("#userModal" + index).modal('hide');
 
-	};
-}]);
+			};
+		} ]);
 
 /*
  * 
@@ -268,6 +268,12 @@ app.controller("approvalCtrl", ['$scope','approvalFactory' ,function($scope, app
  * 
  * 
  */
-app.controller("timesheetCtrl", function($scope) {
-
+app.controller("timesheetCtrl", function($scope,$http,timesheetFactory) {
+		
+	$http.post("http://localhost:8080/EmployeeAngular/FetchTimesheet").success(function(data){
+		$scope.schedule = data;
+		console.log("Timesheets: " + $scope.schedule);
+		$scope.currentWeek = $scope.schedule.pop();
+	});
+	
 });

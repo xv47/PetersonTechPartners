@@ -1,10 +1,26 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
-</head>
-<body>
+<div>
+	<div class="panel panel-default">
+		<div class="panel-heading">Current Timesheet</div>
+		<div class="panel-body">
+			<h4>Week of: {{currentWeek.week}}</h4>
+			<table>
+				<tr><th>Day</th><th>Hours Worked</th></tr>
+				<tr><td>Monday</td><td><input type="number" ng-model="currentWeek.mon"></td></tr>
+				<tr><td>Tuesday</td><td><input type="number" ng-model="currentWeek.tue"></td></tr>
+				<tr><td>Wednesday</td><td><input type="number" ng-model="currentWeek.wed"></td></tr>
+				<tr><td>Thursday</td><td><input type="number" ng-model="currentWeek.thu"></td></tr>
+				<tr><td>Friday</td><td><input type="number" ng-model="currentWeek.fri"></td></tr>
+				<tr><td>Saturday</td><td><input type="number" ng-model="currentWeek.sat"></td></tr>
+				<tr><td>Sunday</td><td><input type="number" ng-model="currentWeek.sun"></td></tr>
 
-</body>
-</html>
+			</table>
+
+		</div>
+		<div class="panel-heading">Past Timesheets</div>
+		<div class="panel-body">
+			<div class="list-group" ng-repeat="ts in schedule">
+				<a href="#" class="list-group-item">Week of {{ts.week}}</a>
+			</div>
+		</div>
+	</div>
+</div>
