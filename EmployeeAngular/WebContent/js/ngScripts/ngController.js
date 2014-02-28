@@ -269,11 +269,50 @@ app.controller("approvalCtrl", [ '$scope', 'approvalFactory',
  * 
  */
 app.controller("timesheetCtrl", function($scope,$http,timesheetFactory) {
-		
+	$scope.isSubmit = false;
+	$scope.isApproved = false;
 	$http.post("http://localhost:8080/EmployeeAngular/FetchTimesheet").success(function(data){
 		$scope.schedule = data;
 		console.log("Timesheets: " + $scope.schedule);
 		$scope.currentWeek = $scope.schedule.pop();
+		
+		
 	});
+	$scope.showTimesheet = function(index){
+		console.log("Calling timesheet modal for index " + index);
+		$("#tsModal"+index).modal();
+	}
+	$scope.checkSubmit = function(index){
+		return ($scope.schedule[index].submitted == 1) ? true : false;
+	}
+	$scope.checkApprove = function(index){
+		return ($scope.schedule[index].approved == 1) ? true : false;
+	}
+	
+	$scope.updateTimesheet = function(){
+		console.log($scope.currentWeek);
+		timesheetFactory.updateTimesheet($scope.currentWeek);
+		$scope.modalMsg = "Successfully Updated Timesheet";
+		$("#tsMsg").modal();
+	}
+	
+	$scope.submitTimesheet = function(idToSubmit){
+		console.log("Submitting timesheet id " + idToSubmit);
+		var id = {"id": idToSubmit}
+		timesheetFactory.submitTimesheet(id);
+				
+		$scope.modalMsg = "Successfully Submitted Timesheet";
+		$("#tsMsg").modal();
+	}
+	$scope.submitOldTimesheet = function(index){
+		console.log("Submitting timesheet id " + $scope.schedule[index].id);
+		$("#tsModal"+index).modal('hide');
+		timesheetFactory.submitTimesheet($scope.schedule[index]);
+		
+		$scope.schedule[index].submitted = 1;
+		
+		$scope.modalMsg = "Successfully Submitted Timesheet";
+		$("#tsMsg").modal();
+	}
 	
 });

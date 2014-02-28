@@ -1,0 +1,27 @@
+<div ng-controller="timesheetCtrl">
+	<!--  Modal for groups that a manager is in charge of -->
+	<div class="modal fade" tabindex="-1" role="dialog"
+		aria-labelledby="mySmallModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header" id="groupModalHeader">
+					<h3>{{header}}</h3>
+				</div>
+
+				<div class="modal-body" id="groupModalBody">
+					<div ng-transclude></div>
+
+				</div>
+
+				<div class="modal-footer" id="groupModalFooter">
+					<div class="col-lg-6">
+
+						<button type="button" class="btn btn-warning" data-dismiss="modal">Cancel</button>
+					</div>
+					<!-- /.col-lg-6 -->
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>

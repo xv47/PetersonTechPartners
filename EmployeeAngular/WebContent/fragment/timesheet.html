@@ -1,25 +1,213 @@
 <div>
+	<div class="modal fade" id="tsMsg">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title">Timesheets</h4>
+				</div>
+				<div class="modal-body">
+					<p>{{modalMsg}}</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
+
 	<div class="panel panel-default">
 		<div class="panel-heading">Current Timesheet</div>
 		<div class="panel-body">
+
+			<div id="name">{{emp[0].fname}} {{emp[0].lname}}</div>
+			<div id="add1">{{emp[0].street}}</div>
+			<div id="add2">{{emp[0].city}}, {{emp[0].state}} {{emp[0].zip}}</div>
+			<div id="email">{{emp[0].email}}</div>
+			<div id="role">{{emp[0].role}}</div>
+
 			<h4>Week of: {{currentWeek.week}}</h4>
 			<table>
-				<tr><th>Day</th><th>Hours Worked</th></tr>
-				<tr><td>Monday</td><td><input type="number" ng-model="currentWeek.mon"></td></tr>
-				<tr><td>Tuesday</td><td><input type="number" ng-model="currentWeek.tue"></td></tr>
-				<tr><td>Wednesday</td><td><input type="number" ng-model="currentWeek.wed"></td></tr>
-				<tr><td>Thursday</td><td><input type="number" ng-model="currentWeek.thu"></td></tr>
-				<tr><td>Friday</td><td><input type="number" ng-model="currentWeek.fri"></td></tr>
-				<tr><td>Saturday</td><td><input type="number" ng-model="currentWeek.sat"></td></tr>
-				<tr><td>Sunday</td><td><input type="number" ng-model="currentWeek.sun"></td></tr>
+				<tr>
+					<th>Day</th>
+					<th>Regular Hours</th>
+					<th>Overtime Hours</th>
+				</tr>
+				<tr>
+					<td>Monday</td>
+					<td><input type="number" ng-model="currentWeek.mon"></td>
+					<td><input type="number" ng-model="currentWeek.mon_ot"></td>
+				</tr>
+				<tr>
+					<td>Tuesday</td>
+					<td><input type="number" ng-model="currentWeek.tue"></td>
+					<td><input type="number" ng-model="currentWeek.tue_ot"></td>
+				</tr>
+				<tr>
+					<td>Wednesday</td>
+					<td><input type="number" ng-model="currentWeek.wed"></td>
+					<td><input type="number" ng-model="currentWeek.wed_ot"></td>
+				</tr>
+				<tr>
+					<td>Thursday</td>
+					<td><input type="number" ng-model="currentWeek.thu"></td>
+					<td><input type="number" ng-model="currentWeek.thu_ot"></td>
+				</tr>
+				<tr>
+					<td>Friday</td>
+					<td><input type="number" ng-model="currentWeek.fri"></td>
+					<td><input type="number" ng-model="currentWeek.fri_ot"></td>
+				</tr>
+				<tr>
+					<td>Saturday</td>
+					<td><input type="number" ng-model="currentWeek.sat"></td>
+					<td><input type="number" ng-model="currentWeek.sat_ot"></td>
+				</tr>
+				<tr>
+					<td>Sunday</td>
+					<td><input type="number" ng-model="currentWeek.sun"></td>
+					<td><input type="number" ng-model="currentWeek.sun_ot"></td>
+				</tr>
 
 			</table>
-
+			<div class="row">
+				<div class="col-md-offset-6">
+					<button class="btn btn-primary" ng-click="updateTimesheet()">Update</button>
+					<button class="btn btn-success"
+						ng-click="submitTimesheet(currentWeek.id)">Submit</button>
+				</div>
+			</div>
 		</div>
 		<div class="panel-heading">Past Timesheets</div>
 		<div class="panel-body">
-			<div class="list-group" ng-repeat="ts in schedule">
-				<a href="#" class="list-group-item">Week of {{ts.week}}</a>
+			<div ng-repeat="ts in schedule">
+				<div class="list-group">
+
+					<div class="list-group-item" ng-click="showTimesheet($index)"
+						data-toggle="modal" data-target='#tsModal{{$index}}'>
+
+						Week of {{ts.week}}
+
+						<div class="pull-right">
+							<span class="label label-success" ng-show="checkSubmit($index)">Submitted
+								<span class="glyphicon glyphicon-ok"></span>
+							</span><span class="label label-success" ng-show="checkApproved($index)">Approved
+								<span class="glyphicon glyphicon-ok"></span>
+
+							</span> <span class="label label-danger" ng-show="!checkSubmit($index)">Not
+								Submitted <span class="glyphicon glyphicon-remove"></span>
+							</span>&nbsp;<span class="label label-danger"
+								ng-show="!checkApproved($index)">Not Approved <span
+								class="glyphicon glyphicon-remove"></span>
+							</span>
+						</div>
+					</div>
+
+					<!--  Modal for groups that a manager is in charge of -->
+					<div class="modal fade" id="tsModal{{$index}}" tabindex="-1"
+						role="dialog" aria-labelledby="mySmallModalLabel"
+						aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header" id="groupModalHeader">
+								<h3>Week of {{ts.week}}</h3>
+									
+
+
+
+								</div>
+
+								<div class="modal-body" id="groupModalBody">
+									<div id="name">{{emp[0].fname}} {{emp[0].lname}}</div>
+									<div id="add1">{{emp[0].street}}</div>
+									<div id="add2">{{emp[0].city}}, {{emp[0].state}}
+										{{emp[0].zip}}</div>
+									<div id="email">{{emp[0].email}}</div>
+									<div id="role">{{emp[0].role}}</div>
+									<br>
+									<timesheet>
+									<table>
+										<tr>
+											<th>Day</th>
+											<th>Regular Hours</th>
+											<th>Overtime Hours</th>
+										</tr>
+										<tr>
+											<td>Monday</td>
+											<td><input type="number" ng-model="ts.mon"
+												ng-readonly="checkApproved($index)"></td>
+											<td><input type="number" ng-model="ts.mon_ot"
+												ng-readonly="checkApproved($index)"></td>
+										</tr>
+										<tr>
+											<td>Tuesday</td>
+											<td><input type="number" ng-model="ts.tue"
+												ng-readonly="checkApproved($index)"></td>
+											<td><input type="number" ng-model="ts.tue_ot"
+												ng-readonly="checkApproved($index)"></td>
+										</tr>
+										<tr>
+											<td>Wednesday</td>
+											<td><input type="number" ng-model="ts.wed"
+												ng-readonly="checkApproved($index)"></td>
+											<td><input type="number" ng-model="ts.wed_ot"
+												ng-readonly="checkApproved($index)"></td>
+										</tr>
+										<tr>
+											<td>Thursday</td>
+											<td><input type="number" ng-model="ts.thu"
+												ng-readonly="checkApproved($index)"></td>
+											<td><input type="number" ng-model="ts.thu_ot"
+												ng-readonly="checkApproved($index)"></td>
+										</tr>
+										<tr>
+											<td>Friday</td>
+											<td><input type="number" ng-model="ts.fri"
+												ng-readonly="checkApproved($index)"></td>
+											<td><input type="number" ng-model="ts.fri_ot"
+												ng-readonly="checkApproved($index)"></td>
+										</tr>
+										<tr>
+											<td>Saturday</td>
+											<td><input type="number" ng-model="ts.sat"
+												ng-readonly="checkApproved($index)"></td>
+											<td><input type="number" ng-model="ts.sat_ot"
+												ng-readonly="checkApproved($index)"></td>
+										</tr>
+										<tr>
+											<td>Sunday</td>
+											<td><input type="number" ng-model="ts.sun"
+												ng-readonly="checkApproved($index)"></td>
+											<td><input type="number" ng-model="ts.sun_ot"
+												ng-readonly="checkApproved($index)"></td>
+										</tr>
+
+									</table>
+									</timesheet>
+								</div>
+
+								<div class="modal-footer" id="groupModalFooter">
+									<div class="col-lg-6">
+
+										<button type="button" class="btn btn-warning"
+											data-dismiss="modal">Cancel</button>
+										<button class="btn btn-primary" ng-click="updateTimesheet()">Update</button>
+										<button class="btn btn-success"
+											ng-click="submitOldTimesheet($index)">Submit</button>
+									</div>
+									<!-- /.col-lg-6 -->
+								</div>
+							</div>
+						</div>
+
+					</div>
+					<!--  End Modal -->
+				</div>
+
 			</div>
 		</div>
 	</div>

@@ -151,8 +151,34 @@ app
 
 app.factory('timesheetFactory',function($http){
 	return{
-		getTimesheet : function(){
-			$http.post("http://localhost:8080/EmployeeAngular/FetchTimesheet");
+		updateTimesheet : function(timesheetData){
+			
+			$http.post("http://localhost:8080/EmployeeAngular/UpdateTimesheet",
+					$.param(timesheetData),
+					{
+						headers : {
+							'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8'
+						}
+					});
+			},
+		submitTimesheet: function(timesheetData){
+			
+			$http.post("http://localhost:8080/EmployeeAngular/SubmitTimesheet",
+					$.param(timesheetData),
+					{
+						headers : {
+							'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8'
+						}
+					});
+		},
+		approveTimesheet: function(timesheetData){
+			$http.post("http://localhost:8080/EmployeeAngular/ApproveTimesheet",
+					$.param(timesheetData),
+					{
+						headers : {
+							'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8'
+						}
+					});
 		}
 	}
 });
