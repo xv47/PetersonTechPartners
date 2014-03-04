@@ -13,6 +13,8 @@ import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import com.peterson.servlets.login.Validate;
+
 public class Timesheet {
 	protected static String host = "jdbc:mysql://localhost/userdb";
 	protected static String user = "edward";
@@ -66,6 +68,24 @@ public class Timesheet {
 		}
 		return b;
 	}
+	public static boolean uploadPDF(int id, String localPath) {
+		boolean b = false;
+		try {
+			connectDB();
+			logger.info("Updating database record: "+ localPath + " " + id);
+			PreparedStatement ps = con
+					.prepareStatement("UPDATE userdb.timesheet SET pdf=? WHERE id=?");
+			ps.setString(1, localPath);
+			ps.setInt(2, id);
+			ps.execute();
+
+			b = true;
+		} catch (Exception e) {
+			logger.error(e.toString());
+		}
+		return b;
+	}
+	
 	public static boolean updateTimesheet(int tID, int app, String pdf,
 			int sun, int mon, int tue, int wed, int thu, int fri, int sat,
 			int sun_ot, int mon_ot, int tue_ot, int wed_ot, int thu_ot, int fri_ot, int sat_ot,
@@ -201,7 +221,34 @@ public class Timesheet {
 		
 		return complete.toJSONString();
 	}
-
+	public static String getSubmittedTimesheet(){
+		JSONObject obj = new JSONObject();
+		JSONArray arr = new JSONArray();
+		
+		try{
+			connectDB();
+			
+			PreparedStatement ps = con.prepareStatement("SELECT * FROM timesheet WHERE submitted=1");
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				obj.put("id", rs.getInt("id"));
+				obj.put("emp_id", rs.getInt("emp_id"));
+				obj.put("week", convertWeek(rs.getInt("yearweek")));
+				obj.put("emp", Validate.getEmpName(rs.getInt("emp_id")));
+				obj.put("pdf", rs.getString("pdf"));
+				obj.put("submitted", rs.getInt("submitted"));
+				obj.put("approved", rs.getInt("approved"));
+				arr.add(obj);
+				obj = new JSONObject();
+			}
+			
+			
+		}catch (Exception e){
+			logger.error(e.toString());
+		}
+		
+		return arr.toJSONString();
+	}
 	public static String convertWeek(int yearWeek) {
 		String weekDate = new String();
 		int year = yearWeek / 100;

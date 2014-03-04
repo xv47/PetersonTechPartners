@@ -22,8 +22,16 @@
 
 	<div class="panel panel-default">
 		<div class="panel-heading">Current Timesheet</div>
-		<div class="panel-body">
-
+		<div class="panel-body" id="curTS">
+			<div class="row">
+				<div class="pull-right">
+					<span class="label label-success" ng-show="checkCurWeekSubmit()">Submitted
+						<span class="glyphicon glyphicon-ok"></span>
+					</span> </span> <span class="label label-danger" ng-show="!checkCurWeekSubmit()">Not
+						Submitted <span class="glyphicon glyphicon-remove"></span>
+					</span>&nbsp; </span>
+				</div>
+			</div>
 			<div id="name">{{emp[0].fname}} {{emp[0].lname}}</div>
 			<div id="add1">{{emp[0].street}}</div>
 			<div id="add2">{{emp[0].city}}, {{emp[0].state}} {{emp[0].zip}}</div>
@@ -31,56 +39,94 @@
 			<div id="role">{{emp[0].role}}</div>
 
 			<h4>Week of: {{currentWeek.week}}</h4>
-			<table>
-				<tr>
-					<th>Day</th>
-					<th>Regular Hours</th>
-					<th>Overtime Hours</th>
-				</tr>
-				<tr>
-					<td>Monday</td>
-					<td><input type="number" ng-model="currentWeek.mon"></td>
-					<td><input type="number" ng-model="currentWeek.mon_ot"></td>
-				</tr>
-				<tr>
-					<td>Tuesday</td>
-					<td><input type="number" ng-model="currentWeek.tue"></td>
-					<td><input type="number" ng-model="currentWeek.tue_ot"></td>
-				</tr>
-				<tr>
-					<td>Wednesday</td>
-					<td><input type="number" ng-model="currentWeek.wed"></td>
-					<td><input type="number" ng-model="currentWeek.wed_ot"></td>
-				</tr>
-				<tr>
-					<td>Thursday</td>
-					<td><input type="number" ng-model="currentWeek.thu"></td>
-					<td><input type="number" ng-model="currentWeek.thu_ot"></td>
-				</tr>
-				<tr>
-					<td>Friday</td>
-					<td><input type="number" ng-model="currentWeek.fri"></td>
-					<td><input type="number" ng-model="currentWeek.fri_ot"></td>
-				</tr>
-				<tr>
-					<td>Saturday</td>
-					<td><input type="number" ng-model="currentWeek.sat"></td>
-					<td><input type="number" ng-model="currentWeek.sat_ot"></td>
-				</tr>
-				<tr>
-					<td>Sunday</td>
-					<td><input type="number" ng-model="currentWeek.sun"></td>
-					<td><input type="number" ng-model="currentWeek.sun_ot"></td>
-				</tr>
+			
+			<form>
+				<table id="scheduleTable" class="table table-bordered table-condensed table-striped table-responsive">
+					<tr class="info">
+						<th>Day</th>
 
-			</table>
-			<div class="row">
-				<div class="col-md-offset-6">
-					<button class="btn btn-primary" ng-click="updateTimesheet()">Update</button>
-					<button class="btn btn-success"
-						ng-click="submitTimesheet(currentWeek.id)">Submit</button>
+						<th width="10">Regular Hours</th>
+						<th>OT Hours</th>
+						<th>Total Hours</th>
+						<!-- 
+					<td>Non-billable hours</td>
+					<td>Hours Code</td>
+					-->
+
+					</tr>
+					<form class="inline">
+						<tr>
+							<td>Monday</td>
+
+							<td><input ng-model="currentWeek.mon" class="input-small"
+								size="5"></td>
+							<td><input ng-model="currentWeek.mon_ot" size="5"></td>
+							<td>{{currentWeek.mon + curentWeek.mon_ot}}</td>
+							<!-- 
+					<td><input ng-model="currentWeek.mon_nbh"  size="5"></td>
+					<td><input ng-model="currentWeek.mon_nbhc"></td>
+					-->
+						</tr>
+						<tr>
+							<td>Tuesday</td>
+							<td><input ng-model="currentWeek.tue" size="5"></td>
+							<td><input ng-model="currentWeek.tue_ot" size="5"></td>
+							<td>{{currentWeek.tue + curentWeek.tue_ot}}</td>
+						</tr>
+						<tr>
+							<td>Wednesday</td>
+							<td><input ng-model="currentWeek.wed" size="5"></td>
+							<td><input ng-model="currentWeek.wed_ot" size="5"></td>
+							<td>{{currentWeek.wed + curentWeek.wed_ot}}</td>
+						</tr>
+						<tr>
+							<td>Thursday</td>
+							<td><input ng-model="currentWeek.thu" size="5"></td>
+							<td><input ng-model="currentWeek.thu_ot" size="5"></td>
+							<td>{{currentWeek.thu + curentWeek.thu_ot}}</td>
+						</tr>
+						<tr>
+							<td>Friday</td>
+							<td><input ng-model="currentWeek.fri" size="5"></td>
+							<td><input ng-model="currentWeek.fri_ot" size="5"></td>
+							<td>{{currentWeek.fri + curentWeek.fri_ot}}</td>
+						</tr>
+						<tr>
+							<td>Saturday</td>
+							<td><input ng-model="currentWeek.sat" size="5"></td>
+							<td><input ng-model="currentWeek.sat_ot" size="5"></td>
+							<td>{{currentWeek.sat + curentWeek.sat_ot}}</td>
+						</tr>
+						<tr>
+							<td>Sunday</td>
+							<td><input ng-model="currentWeek.sun" size="5"></td>
+							<td><input ng-model="currentWeek.sun_ot" size="5"></td>
+							<td>{{currentWeek.sun + curentWeek.sun_ot}}</td>
+						</tr>
+
+					</form>
+
+				</table>
+				<div class="row">
+					<label>Last Uploaded PDF: </label><a ng-href="{{currentWeek.pdf}}">PDF for {{currentWeek.week}}</a>
+					<br> <label>Upload timesheet:</label><input type="file"
+						ng-model-instant id="files"
+						onchange="angular.element(this).scope().setFiles(this)"> <br>
+					<button class="btn btn-primary"
+						ng-click="pdfUpload(currentWeek.id)" ng-show="uploadButton">Upload</button>
+						<span class="label label-success" ng-show="isSuccess">Successfully Uploaded</span>
 				</div>
-			</div>
+				<div class="row">
+					<div class="col-md-offset-6">
+						<button class="btn btn-primary" ng-click="updateTimesheet()">Update</button>
+						<button class="btn btn-primary"
+							ng-click="generatePDF(currentWeek)">Generate PDF</button>
+						<button class="btn btn-success"
+							ng-click="submitTimesheet(currentWeek.id)">Submit</button>
+					</div>
+				</div>
+			</form>
+			
 		</div>
 		<div class="panel-heading">Past Timesheets</div>
 		<div class="panel-body">
@@ -114,8 +160,8 @@
 						<div class="modal-dialog">
 							<div class="modal-content">
 								<div class="modal-header" id="groupModalHeader">
-								<h3>Week of {{ts.week}}</h3>
-									
+									<h3>Week of {{ts.week}}</h3>
+
 
 
 
@@ -130,7 +176,7 @@
 									<div id="role">{{emp[0].role}}</div>
 									<br>
 									<timesheet>
-									<table>
+									<table id="scheduleTable">
 										<tr>
 											<th>Day</th>
 											<th>Regular Hours</th>
@@ -188,14 +234,27 @@
 
 									</table>
 									</timesheet>
+
+									<div class="row">
+										<label>Last Uploaded PDF: </label><a ng-href="{{ts.pdf}}">PDF for {{ts.week}}</a>
+										<br> <label>Upload timesheet:</label><input type="file"
+											ng-model-instant id="files"
+											onchange="angular.element(this).scope().setFiles(this)">
+										<br>
+										<button class="btn btn-primary" ng-click="pdfUpload(ts.id)">
+											Upload</button>
+										<span class="label label-success" ng-show="isSuccess">Successfully Uploaded</span>
+									</div>
 								</div>
 
 								<div class="modal-footer" id="groupModalFooter">
-									<div class="col-lg-6">
+									<div>
 
 										<button type="button" class="btn btn-warning"
 											data-dismiss="modal">Cancel</button>
 										<button class="btn btn-primary" ng-click="updateTimesheet()">Update</button>
+										<button class="btn btn-primary"
+											ng-click="generatePDF(currentWeek)">Generate PDF</button>
 										<button class="btn btn-success"
 											ng-click="submitOldTimesheet($index)">Submit</button>
 									</div>

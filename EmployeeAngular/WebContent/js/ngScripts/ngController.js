@@ -254,12 +254,20 @@ app.controller("approvalCtrl", [ '$scope', 'approvalFactory',
 			$scope.approve = function(index) {
 				var user = angular.copy($scope.emp[3][index]);
 
-				console.log("Employee to approve: " + user1.id);
+				console.log("Employee to approve: " + user.id);
 
-				approvalFactory.approveUser(user.id);
-				$("#userModal" + index).modal('hide');
+				approvalFactory.approveUser(user.id, index, $scope);
 
 			};
+			$scope.approveUserSuccessResponse = function(index, response) {
+				$scope.emp[3].splice(index, 1);
+				$("#userModal" + index).modal('hide');
+			}
+			$scope.approveUserFailureResponse = function(index, response) {
+
+				console.log("Failed to approve");
+			}
+
 		} ]);
 
 /*
@@ -268,51 +276,128 @@ app.controller("approvalCtrl", [ '$scope', 'approvalFactory',
  * 
  * 
  */
-app.controller("timesheetCtrl", function($scope,$http,timesheetFactory) {
+app.controller("timesheetCtrl", function($scope, $http, timesheetFactory) {
 	$scope.isSubmit = false;
 	$scope.isApproved = false;
-	$http.post("http://localhost:8080/EmployeeAngular/FetchTimesheet").success(function(data){
-		$scope.schedule = data;
-		console.log("Timesheets: " + $scope.schedule);
-		$scope.currentWeek = $scope.schedule.pop();
-		
-		
-	});
-	$scope.showTimesheet = function(index){
-		console.log("Calling timesheet modal for index " + index);
-		$("#tsModal"+index).modal();
+	$scope.isSuccess = false;
+
+	$http.post("http://localhost:8080/EmployeeAngular/FetchTimesheet").success(
+			function(data) {
+				$scope.schedule = data;
+				console.log("Timesheets: " + $scope.schedule);
+				$scope.currentWeek = $scope.schedule.pop();
+
+			});
+	$http.post("http://localhost:8080/EmployeeAngular/FetchSubmitTimesheet")
+			.success(function(data) {
+				$scope.submittedTimesheet = data;
+				console.log(data);
+				$scope.tsPDF = []; // Holds the timesheets with PDFs
+				for (var i = 0; i < data.length; i++) {
+					if (data[i].pdf.length > 1 && data[i].approved == 0) {
+						$scope.tsPDF.push(data[i]);
+					}
+				}
+			});
+	$scope.sumCurRegHours = function() {
+		return $scope.currentWeek.mon + $scope.currentWeek.tue
+				+ $scope.currentWeek.wed + $scope.currentWeek.thu
+				+ $scope.currentWeek.fri + $scope.currentWeek.sat
+				+ $scope.currentWeek.sun;
 	}
-	$scope.checkSubmit = function(index){
+	$scope.sumCurOTHours = function() {
+		return $scope.currentWeek.mon_ot + $scope.currentWeek.tue_ot
+				+ $scope.currentWeek.wed_ot + $scope.currentWeek.thu_ot
+				+ $scope.currentWeek.fri_ot + $scope.currentWeek.sat_ot
+				+ $scope.currentWeek.sun_ot;
+	}
+	$scope.showTimesheet = function(index) {
+		console.log("Calling timesheet modal for index " + index);
+		$scope.isSuccess = false;
+		$("#tsModal" + index).modal();
+	}
+	$scope.checkSubmit = function(index) {
 		return ($scope.schedule[index].submitted == 1) ? true : false;
 	}
-	$scope.checkApprove = function(index){
+	$scope.checkApprove = function(index) {
 		return ($scope.schedule[index].approved == 1) ? true : false;
 	}
-	
-	$scope.updateTimesheet = function(){
+
+	$scope.checkCurWeekSubmit = function() {
+		return ($scope.currentWeek.submitted == 1) ? true : false;
+	}
+	$scope.checkCurWeekApprove = function() {
+		return ($scope.currentWeek.approved == 1) ? true : false;
+	}
+
+	$scope.updateTimesheet = function() {
 		console.log($scope.currentWeek);
 		timesheetFactory.updateTimesheet($scope.currentWeek);
 		$scope.modalMsg = "Successfully Updated Timesheet";
 		$("#tsMsg").modal();
 	}
-	
-	$scope.submitTimesheet = function(idToSubmit){
+
+	$scope.submitTimesheet = function(idToSubmit) {
 		console.log("Submitting timesheet id " + idToSubmit);
-		var id = {"id": idToSubmit}
+		var id = {
+			"id" : idToSubmit
+		}
 		timesheetFactory.submitTimesheet(id);
-				
+		$scope.currentWeek.submitted = 1;
 		$scope.modalMsg = "Successfully Submitted Timesheet";
 		$("#tsMsg").modal();
 	}
-	$scope.submitOldTimesheet = function(index){
+	$scope.submitOldTimesheet = function(index) {
 		console.log("Submitting timesheet id " + $scope.schedule[index].id);
-		$("#tsModal"+index).modal('hide');
+		$("#tsModal" + index).modal('hide');
 		timesheetFactory.submitTimesheet($scope.schedule[index]);
-		
+
 		$scope.schedule[index].submitted = 1;
-		
+
 		$scope.modalMsg = "Successfully Submitted Timesheet";
 		$("#tsMsg").modal();
+	}
+	$scope.generatePDF = function(week) {
+
+		timesheetFactory.genPDF($scope.emp[0], week);
+		console.log("PDF generated");
+	}
+	$scope.setFiles = function(element) {
+		$scope.$apply(function($scope) {
+			console.log('files:', element.files);
+			// Turn the FileList object into an Array
+			$scope.files = []
+			for (var i = 0; i < element.files.length; i++) {
+				$scope.files.push(element.files[i])
+			}
+			$scope.progressVisible = false;
+			$scope.uploadButton = true;
+		});
+		
+	};
+
+	$scope.pdfUpload = function(id) {
+		var em = $scope.emp[0].email;
+		console.log("Email for hashing: " + em + " id of timesheet: " + id);
+
+		var file = $scope.files[0];
+		console.log(file);
+		var uploadUrl = './UploadPDF';
+		timesheetFactory.uploadFileToUrl(file, id, uploadUrl,$scope);
+
+	};
+	$scope.approveTimesheet = function(index) {
+		console.log($scope.tsPDF[index].id);
+		var id = $scope.tsPDF[index].id;
+		timesheetFactory.approveTimesheet(id, index, $scope);
+	}
+	$scope.approveTimesheetSuccess = function(index, response) {
+		$("#tsModal" + index).on('hidden.bs.modal', function() {
+			location.reload();
+			$scope.tsPDF.splice(index, 1);
+		});
+
 	}
 	
+
 });

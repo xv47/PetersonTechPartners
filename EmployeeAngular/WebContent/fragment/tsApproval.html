@@ -1,0 +1,73 @@
+<div>
+	<div class="modal fade" id="tsMsg">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title">Timesheets</h4>
+				</div>
+				<div class="modal-body">
+					<p>{{modalMsg}}</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
+
+	<div class="panel panel-default">
+		
+		<div class="panel-heading">Timesheets to Approve</div>
+		<div class="panel-body">
+			<div ng-repeat="ts in tsPDF">
+				<div class="list-group">
+
+					<div class="list-group-item" ng-click="showTimesheet($index)"
+						data-toggle="modal" data-target='#tsModal{{$index}}'>
+
+						Week of {{ts.week}} for {{ts.emp}}
+
+					</div>
+					
+					<!--  Modal for groups that a manager is in charge of -->
+					<div class="modal fade" id="tsModal{{$index}}"  tabindex="-1"
+					role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header" id="groupModalHeader">
+									<h3>Week of {{ts.week}}</h3>
+									
+								</div>
+
+								<div class="modal-body" id="groupModalBody">
+								<iframe ng-src="/ETS/59235f35e4/02-24-2014.pdf" type="application/pdf" width="100%" height="300px">
+								</iframe>
+								</div>
+
+								<div class="modal-footer">
+									<div class="col-lg-6">
+
+										<button type="button" class="btn btn-warning"
+											data-dismiss="modal">Cancel</button>
+										
+										<button class="btn btn-success"
+											ng-click="approveTimesheet($index)" data-dismiss="modal">Approve</button>
+									</div>
+									<!-- /.col-lg-6 -->
+								</div>
+							</div>
+						</div>
+
+					</div>
+					<!--  End Modal -->
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>

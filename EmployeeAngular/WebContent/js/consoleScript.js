@@ -27,6 +27,26 @@ function joinGroup(g) {
 	}
 }
 */
+function onFileUpload(id) {
+
+	var em = $("#email").val();
+	//var filename = $(this).val();
+	$('input[type="file"]').ajaxfileupload({
+		'action' : 'UploadPDF',
+		'params' : {
+			'id' : id
+		},
+		'onComplete' : function(response) {
+			$('#uploadComment').hide();
+			//$('#imgName').html(filename);
+		},
+		'onStart' : function() {
+			$('#uploadComment').show();
+
+		}
+	});
+
+}
 function approveUser(u) {
 	$.ajax({
 		type : 'POST',

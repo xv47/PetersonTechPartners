@@ -18,34 +18,42 @@ import org.apache.log4j.Logger;
 public class ApproveTimesheet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	Logger logger = Logger.getLogger(ApproveTimesheet.class);
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public ApproveTimesheet() {
-        super();
-        // TODO Auto-generated constructor stub
-        BasicConfigurator.configure();
-    }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public ApproveTimesheet() {
+		super();
+		// TODO Auto-generated constructor stub
+		BasicConfigurator.configure();
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		int id = Integer.parseInt(request.getParameter("id"));
-		
-		if(Timesheet.approveTimesheet(id)){
-			logger.info("Successfully submitted timesheet");
-		}else{
-			logger.info("Unable to submit timesheet");
+		try {
+			int id = Integer.parseInt(request.getParameter("id"));
+			logger.info("Timesheet id to approve: " + id);
+			if (Timesheet.approveTimesheet(id)) {
+				logger.info("Successfully approved timesheet");
+			} else {
+				logger.info("Unable to approve timesheet");
+			}
+		} catch (Exception e) {
+			logger.error(e.toString());
 		}
 	}
 
