@@ -116,6 +116,14 @@ function func(index) {
 }
 $(document).ready(
 	function() {
+		$('[data-toggle=offcanvas]').click(function() {
+		    $('.row-offcanvas').toggleClass('active');
+		    $('.showhide').toggle();
+		  });
+		$('.navbar-nav a').click(function() {
+		    $('.row-offcanvas').toggleClass('active');
+		    $('.showhide').toggle();
+		  });
 		/*
 		$.post("JoinGroupServlet", function(data) {
 			if (data.message == "invalid") {
