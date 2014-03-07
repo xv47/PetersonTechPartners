@@ -50,6 +50,19 @@ app
 					}
 
 				});
+///////////////////////////////////////////
+//
+//		Factory for console
+//
+///////////////////////////////////////////
+app.factory('consoleFactory',function($http){
+	return{
+		
+		fetchAll : function(){
+			return $http.post("http://localhost:8080/EmployeeAngular/FetchAllEmployees");
+		}
+	}
+});
 /*
  * 
  * Factory for groups
@@ -155,6 +168,12 @@ app
 						}
 					}
 				});
+//////////////////////////////////////////////////
+//
+//		Timesheet Factory
+//
+//
+//////////////////////////////////////////////////
 
 app.factory('timesheetFactory',function($http){
 	return{

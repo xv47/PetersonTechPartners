@@ -1,0 +1,65 @@
+<div>
+	<div class="modal fade" id="tsMsg">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title">Search</h4>
+				</div>
+				<div class="modal-body">
+					<p>{{modalMsg}}</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
+
+	<div class="panel panel-default">
+		<div class="panel-heading">Search for employee</div>
+		<div class="panel-body">
+
+			<div class="row">
+
+				<!-- /.col-lg-6 -->
+				<div class="col-lg-6">
+					<div class="input-group">
+						<input type="text" class="form-control"
+							placeholder="Enter Employee Email" ng-model="empQuery" id="empSearchBox"> <span
+							class="input-group-btn">
+							<button class="btn btn-default" type="button" ng-click="findEmployee()">Search</button>
+						</span>
+					</div>
+					<!-- /input-group -->
+				</div>
+				<!-- /.col-lg-6 -->
+			</div>
+			<!-- /.row -->
+
+		</div>
+		<div class="panel-heading">Employee Details</div>
+		<div class="panel-body">
+			<div ng-show="doesExist">
+				<div class='col-md-3'>
+					<div class='panel panel-default text-center' id='btnOpenModal'
+						data-target='userModal'>
+						<div class='panel-heading' ng-class='roleStyle'>
+							<strong> {{usr.role}}</strong>
+						</div>
+						<img ng-src='{{usr.img}}' class='img-circle' width=140>
+						<h4>{{usr.fname}} {{usr.lname}}</h4>
+						{{usr.street}}<br>
+						{{usr.city}}, {{usr.state}} {{usr.zip}}<br>
+						{{usr.role}}<br>
+						{{usr.email}}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

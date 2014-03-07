@@ -39,9 +39,10 @@
 			<div id="role">{{emp[0].role}}</div>
 
 			<h4>Week of: {{currentWeek.week}}</h4>
-			
+
 			<form>
-				<table id="scheduleTable" class="table table-bordered table-condensed table-striped table-responsive">
+				<table id="scheduleTable"
+					class="table table-bordered table-condensed table-striped table-responsive">
 					<tr class="info">
 						<th>Day</th>
 
@@ -58,9 +59,9 @@
 						<tr>
 							<td>Monday</td>
 
-							<td><input ng-model="currentWeek.mon" class="input-small"
+							<td><input ng-model="currentWeek.mon" data-validation="number" class="input-small"
 								size="5"></td>
-							<td><input ng-model="currentWeek.mon_ot" size="5"></td>
+							<td><input ng-model="currentWeek.mon_ot" data-validation="number" size="5"></td>
 							<td>{{currentWeek.mon + curentWeek.mon_ot}}</td>
 							<!-- 
 					<td><input ng-model="currentWeek.mon_nbh"  size="5"></td>
@@ -69,38 +70,38 @@
 						</tr>
 						<tr>
 							<td>Tuesday</td>
-							<td><input ng-model="currentWeek.tue" size="5"></td>
-							<td><input ng-model="currentWeek.tue_ot" size="5"></td>
+							<td><input ng-model="currentWeek.tue" data-validation="number" size="5"></td>
+							<td><input ng-model="currentWeek.tue_ot" data-validation="number" size="5"></td>
 							<td>{{currentWeek.tue + curentWeek.tue_ot}}</td>
 						</tr>
 						<tr>
 							<td>Wednesday</td>
-							<td><input ng-model="currentWeek.wed" size="5"></td>
-							<td><input ng-model="currentWeek.wed_ot" size="5"></td>
+							<td><input ng-model="currentWeek.wed" data-validation="number" size="5"></td>
+							<td><input ng-model="currentWeek.wed_ot" data-validation="number" size="5"></td>
 							<td>{{currentWeek.wed + curentWeek.wed_ot}}</td>
 						</tr>
 						<tr>
 							<td>Thursday</td>
-							<td><input ng-model="currentWeek.thu" size="5"></td>
-							<td><input ng-model="currentWeek.thu_ot" size="5"></td>
+							<td><input ng-model="currentWeek.thu" data-validation="number" size="5"></td>
+							<td><input ng-model="currentWeek.thu_ot" data-validation="number" size="5"></td>
 							<td>{{currentWeek.thu + curentWeek.thu_ot}}</td>
 						</tr>
 						<tr>
 							<td>Friday</td>
-							<td><input ng-model="currentWeek.fri" size="5"></td>
-							<td><input ng-model="currentWeek.fri_ot" size="5"></td>
+							<td><input ng-model="currentWeek.fri" data-validation="number" size="5"></td>
+							<td><input ng-model="currentWeek.fri_ot" data-validation="number" size="5"></td>
 							<td>{{currentWeek.fri + curentWeek.fri_ot}}</td>
 						</tr>
 						<tr>
 							<td>Saturday</td>
-							<td><input ng-model="currentWeek.sat" size="5"></td>
-							<td><input ng-model="currentWeek.sat_ot" size="5"></td>
+							<td><input ng-model="currentWeek.sat" data-validation="number" size="5"></td>
+							<td><input ng-model="currentWeek.sat_ot" data-validation="number" size="5"></td>
 							<td>{{currentWeek.sat + curentWeek.sat_ot}}</td>
 						</tr>
 						<tr>
 							<td>Sunday</td>
-							<td><input ng-model="currentWeek.sun" size="5"></td>
-							<td><input ng-model="currentWeek.sun_ot" size="5"></td>
+							<td><input ng-model="currentWeek.sun" data-validation="number" size="5"></td>
+							<td><input ng-model="currentWeek.sun_ot" data-validation="number" size="5"></td>
 							<td>{{currentWeek.sun + curentWeek.sun_ot}}</td>
 						</tr>
 
@@ -108,13 +109,14 @@
 
 				</table>
 				<div class="row">
-					<label>Last Uploaded PDF: </label><a ng-href="{{currentWeek.pdf}}">PDF for {{currentWeek.week}}</a>
-					<br> <label>Upload timesheet:</label><input type="file"
-						ng-model-instant id="files"
+					<label>Last Uploaded PDF: </label><a ng-href="{{currentWeek.pdf}}">PDF
+						for {{currentWeek.week}}</a> <br> <label>Upload
+						timesheet:</label><input type="file" ng-model-instant id="files"
 						onchange="angular.element(this).scope().setFiles(this)"> <br>
 					<button class="btn btn-primary"
 						ng-click="pdfUpload(currentWeek.id)" ng-show="uploadButton">Upload</button>
-						<span class="label label-success" ng-show="isSuccess">Successfully Uploaded</span>
+					<span class="label label-success" ng-show="isSuccess">Successfully
+						Uploaded</span>
 				</div>
 				<div class="row">
 					<div class="col-md-offset-6">
@@ -126,7 +128,7 @@
 					</div>
 				</div>
 			</form>
-			
+
 		</div>
 		<div class="panel-heading">Past Timesheets</div>
 		<div class="panel-body">
@@ -135,21 +137,22 @@
 
 					<div class="list-group-item" ng-click="showTimesheet($index)"
 						data-toggle="modal" data-target='#tsModal{{$index}}'>
+						<div class="row">Week of {{ts.week}}</div>
+						<div class="row">
+							<div class="pull-right">
+								<span class="label label-success" ng-show="checkSubmit($index)">Submitted
+									<span class="glyphicon glyphicon-ok"></span>
+								</span><span class="label label-success"
+									ng-show="checkApproved($index)">Approved <span
+									class="glyphicon glyphicon-ok"></span>
 
-						Week of {{ts.week}}
-
-						<div class="pull-right">
-							<span class="label label-success" ng-show="checkSubmit($index)">Submitted
-								<span class="glyphicon glyphicon-ok"></span>
-							</span><span class="label label-success" ng-show="checkApproved($index)">Approved
-								<span class="glyphicon glyphicon-ok"></span>
-
-							</span> <span class="label label-danger" ng-show="!checkSubmit($index)">Not
-								Submitted <span class="glyphicon glyphicon-remove"></span>
-							</span>&nbsp;<span class="label label-danger"
-								ng-show="!checkApproved($index)">Not Approved <span
-								class="glyphicon glyphicon-remove"></span>
-							</span>
+								</span> <span class="label label-danger" ng-show="!checkSubmit($index)">Not
+									Submitted <span class="glyphicon glyphicon-remove"></span>
+								</span>&nbsp;<span class="label label-danger"
+									ng-show="!checkApproved($index)">Not Approved <span
+									class="glyphicon glyphicon-remove"></span>
+								</span>
+							</div>
 						</div>
 					</div>
 
@@ -176,7 +179,8 @@
 									<div id="role">{{emp[0].role}}</div>
 									<br>
 									<timesheet>
-									<table id="scheduleTable">
+									<table id="scheduleTable"
+										class="table table-bordered table-condensed table-striped table-responsive">
 										<tr>
 											<th>Day</th>
 											<th>Regular Hours</th>
@@ -184,66 +188,67 @@
 										</tr>
 										<tr>
 											<td>Monday</td>
-											<td><input type="number" ng-model="ts.mon"
-												ng-readonly="checkApproved($index)"></td>
-											<td><input type="number" ng-model="ts.mon_ot"
-												ng-readonly="checkApproved($index)"></td>
+											<td><input ng-model="ts.mon"
+												ng-readonly="checkApproved($index)" data-validation="number" size="5"></td>
+											<td><input ng-model="ts.mon_ot"
+												ng-readonly="checkApproved($index)" data-validation="number" size="5"></td>
 										</tr>
 										<tr>
 											<td>Tuesday</td>
-											<td><input type="number" ng-model="ts.tue"
-												ng-readonly="checkApproved($index)"></td>
-											<td><input type="number" ng-model="ts.tue_ot"
-												ng-readonly="checkApproved($index)"></td>
+											<td><input ng-model="ts.tue"
+												ng-readonly="checkApproved($index)" data-validation="number" size="5"></td>
+											<td><input ng-model="ts.tue_ot"
+												ng-readonly="checkApproved($index)" data-validation="number" size="5"></td>
 										</tr>
 										<tr>
 											<td>Wednesday</td>
-											<td><input type="number" ng-model="ts.wed"
-												ng-readonly="checkApproved($index)"></td>
-											<td><input type="number" ng-model="ts.wed_ot"
-												ng-readonly="checkApproved($index)"></td>
+											<td><input ng-model="ts.wed"
+												ng-readonly="checkApproved($index)" data-validation="number" size="5"></td>
+											<td><input ng-model="ts.wed_ot"
+												ng-readonly="checkApproved($index)" data-validation="number" size="5"></td>
 										</tr>
 										<tr>
 											<td>Thursday</td>
-											<td><input type="number" ng-model="ts.thu"
-												ng-readonly="checkApproved($index)"></td>
-											<td><input type="number" ng-model="ts.thu_ot"
-												ng-readonly="checkApproved($index)"></td>
+											<td><input ng-model="ts.thu"
+												ng-readonly="checkApproved($index)" data-validation="number" size="5"></td>
+											<td><input ng-model="ts.thu_ot"
+												ng-readonly="checkApproved($index)" data-validation="number" size="5"></td>
 										</tr>
 										<tr>
 											<td>Friday</td>
-											<td><input type="number" ng-model="ts.fri"
-												ng-readonly="checkApproved($index)"></td>
-											<td><input type="number" ng-model="ts.fri_ot"
-												ng-readonly="checkApproved($index)"></td>
+											<td><input ng-model="ts.fri"
+												ng-readonly="checkApproved($index)" data-validation="number" size="5"></td>
+											<td><input ng-model="ts.fri_ot"
+												ng-readonly="checkApproved($index)" data-validation="number" size="5"></td>
 										</tr>
 										<tr>
 											<td>Saturday</td>
-											<td><input type="number" ng-model="ts.sat"
-												ng-readonly="checkApproved($index)"></td>
-											<td><input type="number" ng-model="ts.sat_ot"
-												ng-readonly="checkApproved($index)"></td>
+											<td><input ng-model="ts.sat"
+												ng-readonly="checkApproved($index)" data-validation="number" size="5"></td>
+											<td><input ng-model="ts.sat_ot"
+												ng-readonly="checkApproved($index)" data-validation="number" size="5"></td>
 										</tr>
 										<tr>
 											<td>Sunday</td>
-											<td><input type="number" ng-model="ts.sun"
-												ng-readonly="checkApproved($index)"></td>
-											<td><input type="number" ng-model="ts.sun_ot"
-												ng-readonly="checkApproved($index)"></td>
+											<td><input ng-model="ts.sun"
+												ng-readonly="checkApproved($index)" data-validation="number" size="5"></td>
+											<td><input ng-model="ts.sun_ot"
+												ng-readonly="checkApproved($index)" data-validation="number" size="5"></td>
 										</tr>
 
 									</table>
 									</timesheet>
 
 									<div class="row">
-										<label>Last Uploaded PDF: </label><a ng-href="{{ts.pdf}}">PDF for {{ts.week}}</a>
-										<br> <label>Upload timesheet:</label><input type="file"
-											ng-model-instant id="files"
+										<label>Last Uploaded PDF: </label><a ng-href="{{ts.pdf}}">PDF
+											for {{ts.week}}</a> <br> <label>Upload timesheet:</label><input
+											type="file" ng-model-instant id="files"
 											onchange="angular.element(this).scope().setFiles(this)">
 										<br>
 										<button class="btn btn-primary" ng-click="pdfUpload(ts.id)">
 											Upload</button>
-										<span class="label label-success" ng-show="isSuccess">Successfully Uploaded</span>
+										<span class="label label-success" ng-show="isSuccess">Successfully
+											Uploaded</span>
 									</div>
 								</div>
 

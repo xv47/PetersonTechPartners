@@ -36,6 +36,16 @@ app.config(['$routeProvider',
 				controller: "timesheetCtrl",
 				templateUrl: "fragment/tsApproval.html"
 			})
+		.when('/gallery',
+			{
+				controller: "approvalCtrl",
+				templateUrl: "fragment/gallery.html"
+			})
+		.when('/search',
+			{
+				controller: "consoleCtrl",
+				templateUrl: "fragment/search.html"
+			})
 		.otherwise({ redirectTo: '/' });
 
 }]);

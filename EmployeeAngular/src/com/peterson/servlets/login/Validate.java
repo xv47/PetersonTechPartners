@@ -28,18 +28,19 @@ import com.peterson.employee.Manager;
 import com.peterson.employee.QA;
 import com.peterson.util.MySQL;
 
-public class Validate{
+public class Validate {
 	protected static String host = "jdbc:mysql://localhost/userdb";
 	protected static String user = "edward";
 	protected static String pass = "";
 	protected static String table = "employee";
 	protected static Connection con;
-	
+
 	private static Logger logger = Logger.getLogger(Validate.class);
 
 	public static void init() {
 		BasicConfigurator.configure();
 	}
+
 	public static void connectDB() throws ClassNotFoundException, SQLException {
 
 		// load MySQL driver
@@ -57,27 +58,43 @@ public class Validate{
 			e.printStackTrace();
 		}
 	}
-	public static String getEmail(){
+
+	public static String emailCookie(HttpServletRequest request) {
+		Cookie[] cookies = request.getCookies();
+
+		String email = null;
+
+		for (Cookie cookie : cookies) {
+			if ("email".equals(cookie.getName())) {
+				email = cookie.getValue();
+			}
+		}
+		return email;
+	}
+
+	public static String getEmail() {
 		JSONArray arr = new JSONArray();
 		JSONObject obj = new JSONObject();
-		
-		try{
+
+		try {
 			connectDB();
-			
-			PreparedStatement ps = con.prepareStatement("SELECT * FROM " + table);
+
+			PreparedStatement ps = con.prepareStatement("SELECT * FROM "
+					+ table);
 			ResultSet rs = ps.executeQuery();
-			while(rs.next()){
+			while (rs.next()) {
 				obj.put("email", rs.getString("email"));
 				arr.add(obj);
 				obj = new JSONObject();
 			}
-		} catch(Exception e){
+		} catch (Exception e) {
 			logger.error(e);
 		}
-		
+
 		return arr.toJSONString();
-		
+
 	}
+
 	public static int getID(String email) {
 		int st = 0;
 
@@ -104,8 +121,6 @@ public class Validate{
 
 		return st;
 	}
-
-	
 
 	public static boolean isActive(String email) {
 		boolean st = false;
@@ -190,7 +205,7 @@ public class Validate{
 			ResultSet rs = ps.executeQuery();
 
 			if (rs.next()) {
-				st = (int)rs.getLong("gID");
+				st = (int) rs.getLong("gID");
 				logger.info("Employee group id is: " + st);
 			} else {
 				logger.error("Record for " + email + " not found");
@@ -283,13 +298,14 @@ public class Validate{
 				logger.error(ee.toString());
 			}
 		}
-		//Get groups for Dev and QA
+		// Get groups for Dev and QA
 		JSONObject group = new JSONObject();
 		try {
 			connectDB();
 			int gID = getGID(email);
 			logger.info("Getting group id: " + gID);
-			PreparedStatement ps = con.prepareStatement("SELECT * FROM userdb.group WHERE id=?");
+			PreparedStatement ps = con
+					.prepareStatement("SELECT * FROM userdb.group WHERE id=?");
 			ps.setLong(1, gID);
 
 			ResultSet rs = ps.executeQuery();
@@ -299,7 +315,7 @@ public class Validate{
 				group.put("completed", rs.getLong("complete"));
 
 			}
-		logger.info(group.toJSONString());
+			logger.info(group.toJSONString());
 		} catch (Exception ee) {
 			logger.error(ee.toString());
 		}
@@ -620,7 +636,33 @@ public class Validate{
 			return null;
 		}
 	}
-
+	public static String getAllEmployees(){
+		JSONObject obj = new JSONObject();
+		JSONArray array = new JSONArray();
+		try{
+			connectDB();
+			
+			PreparedStatement ps= con.prepareStatement("SELECT * FROM userdb.employee");
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				obj.put("id", rs.getLong("id"));
+				obj.put("fname", rs.getString("fname"));
+				obj.put("lname", rs.getString("lname"));
+				obj.put("street", rs.getString("street"));
+				obj.put("city", rs.getString("city"));
+				obj.put("state", rs.getString("State"));
+				obj.put("zip", (int) rs.getLong("zip"));
+				obj.put("role", rs.getString("role"));
+				obj.put("img", rs.getString("img"));
+				obj.put("email", rs.getString("email"));
+				array.add(obj);
+				obj = new JSONObject();
+			}
+		}catch(Exception e){
+			logger.error(e.toString());
+		}
+		return array.toJSONString();
+	}
 	public static void sendObject(Object o) {
 		URL url;
 		HttpURLConnection urlCon;

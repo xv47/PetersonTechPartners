@@ -132,8 +132,11 @@ app
  */
 
 app.controller("consoleCtrl", function($scope, $http, $cookieStore,
-		loginFactory) {
+		loginFactory, consoleFactory) {
 	$scope.emp = [];
+	$scope.searchResult = [];
+	$scope.doesExist = false;
+
 	var personal = [];
 	var mgrGroup = [];
 	var memGroup = [];
@@ -168,6 +171,17 @@ app.controller("consoleCtrl", function($scope, $http, $cookieStore,
 			}
 
 		});
+		consoleFactory.fetchAll().success(function(data){
+			$scope.searchResults = data;
+		});
+		$scope.findEmployee = function(){
+			for(var i = 0; i < $scope.searchResults.length; i++){
+				if($scope.empQuery == $scope.searchResults[i].email){
+					$scope.usr = $scope.searchResults[i];
+					$scope.doesExist = true;
+				}
+			}
+		}
 
 	}
 
@@ -373,7 +387,7 @@ app.controller("timesheetCtrl", function($scope, $http, timesheetFactory) {
 			$scope.progressVisible = false;
 			$scope.uploadButton = true;
 		});
-		
+
 	};
 
 	$scope.pdfUpload = function(id) {
@@ -383,7 +397,7 @@ app.controller("timesheetCtrl", function($scope, $http, timesheetFactory) {
 		var file = $scope.files[0];
 		console.log(file);
 		var uploadUrl = './UploadPDF';
-		timesheetFactory.uploadFileToUrl(file, id, uploadUrl,$scope);
+		timesheetFactory.uploadFileToUrl(file, id, uploadUrl, $scope);
 
 	};
 	$scope.approveTimesheet = function(index) {
@@ -398,6 +412,5 @@ app.controller("timesheetCtrl", function($scope, $http, timesheetFactory) {
 		});
 
 	}
-	
 
 });

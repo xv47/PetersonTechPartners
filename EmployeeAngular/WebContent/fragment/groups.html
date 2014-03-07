@@ -22,7 +22,9 @@
 						<div class='panel panel-default text-center'
 							data-target='groupModal' id='btnOpenGroupModal'
 							ng-click="groupModal($index)">
+
 							<h4>{{group.name}}</h4>
+
 						</div>
 					</div>
 
@@ -39,7 +41,17 @@
 						<div class="modal-dialog">
 							<div class="modal-content">
 								<div class="modal-header" id="groupModalHeader">
-									<h3>{{emp[1][$index].name}}</h3>
+									<div class="row">
+										<div class="col-lg-offset-11">
+											<button class="btn btn-warning" ng-click="removeGroup($index)">
+												<span class="glyphicon glyphicon-remove"></span>
+											</button>
+										</div>
+										<div class="col-md-6">
+										<h3>{{emp[1][$index].name}}</h3>
+										</div>
+									</div>
+
 								</div>
 								<div class="modal-body" id="groupModalBody">
 									<table class='table' ng-repeat='member in mGroup'>
@@ -48,7 +60,7 @@
 											<td>{{member.email}}</td>
 											<td>
 												<button type='button' class='btn btn-danger'
-												 ng-click='removeMember($index, emp[1][$parent.$index].id)'>
+													ng-click='removeMember($index, emp[1][$parent.$index].id)'>
 													<span class='glyphicon glyphicon-remove'></span>Remove
 													</div>
 											</td>
@@ -61,15 +73,18 @@
 											<input type="text" class="form-control" id="memberToAdd"
 												data-validation="email"
 												data-validation-error-msg="You must enter a valid email"
-												placeholder="Employee email"
-												ng-model="memToAdd"><span
+												placeholder="Employee email" ng-model="memToAdd"><span
 												class="input-group-btn">
 												<button class="btn btn-default" type="button"
 													ng-click="addMember(memToAdd)">Add</button>
+
 											</span>
+
 										</div>
 										<!-- /input-group -->
+
 									</div>
+
 									<!-- /.col-lg-6 -->
 								</div>
 							</div>
@@ -78,21 +93,21 @@
 					</div>
 					<!--  End Modal -->
 				</div>
-					<div ng-hide="isManager">
-						<table class='table'>
-							<tr>
-								<th>Name</th>
-								<th>Manager</th>
-								<th>Completed</th>
-							</tr>
-							<tr>
-								<td>{{emp[2].name}}</td>
-								<td>{{emp[2].mgr}}</td>
-								<td>{{emp[2].completed}}</td>
-							</tr>
-						</table>
-					</div>				
-				
+				<div ng-hide="isManager">
+					<table class='table'>
+						<tr>
+							<th>Name</th>
+							<th>Manager</th>
+							<th>Completed</th>
+						</tr>
+						<tr>
+							<td>{{emp[2].name}}</td>
+							<td>{{emp[2].mgr}}</td>
+							<td>{{emp[2].completed}}</td>
+						</tr>
+					</table>
+				</div>
+
 
 			</div>
 		</div>
