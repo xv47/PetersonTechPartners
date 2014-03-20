@@ -21,6 +21,7 @@
 <script src="http://code.angularjs.org/1.2.13/angular-resource.js"></script>
 <script src="http://code.angularjs.org/1.2.13/angular-route.js"></script>
 <script src="http://code.angularjs.org/1.2.13/angular-cookies.js"></script>
+<script src="js/gestures.min.js"></script>
 <script src="js/ui-bootstrap.min.js"></script>
 <script src="js/angular-carousel.js"></script>
 
@@ -41,6 +42,7 @@
 					<h4>Please login</h4>
 				</div>
 				<div class="panel-body">
+				
 					<form role="form" action="Login" method="post">
 						<div class="form-group">
 							<label for="email">Email:</label> <input type="text"
@@ -58,7 +60,7 @@
 								data-validation-error-msg="You did not enter a password">
 						</div>
 						<!-- <button type="submit" class="btn btn-default" id="submitButton">Submit</button> -->
-						<button type="submit" class="btn btn-default" ng-click="loginButton()">Submit</button>
+						<button type="submit" id="loginButton" class="btn btn-default" ng-click="loginButton()">Submit</button>
 					</form>
 					<br> <small>or <a href="register.html">register</a> if
 						you are a new user
@@ -66,8 +68,8 @@
 					
 				</div>
 			</div>
-			<div class="alert alert-danger" ng-show="!isValid">Username Invalid</div>
-			<div class="alert alert-success" ng-show="isValid">Username is Valid</div>
+			<div class="alert alert-danger" id="invalidUsername" ng-show="!isValid">Username Invalid</div>
+			<div class="alert alert-success" id="validUsername" ng-show="isValid">Username is Valid</div>
 		</div>
 		
 	</div>

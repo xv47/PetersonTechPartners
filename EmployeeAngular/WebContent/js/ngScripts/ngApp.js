@@ -1,4 +1,4 @@
-var app = angular.module("ptech",['ngRoute','ngCookies','ui.bootstrap']);
+var app = angular.module("ptech",['ngRoute','ngCookies','ui.bootstrap','angular-gestures']);
 
 
 app.config(['$routeProvider',
@@ -6,12 +6,12 @@ app.config(['$routeProvider',
 	$routeProvider
 		.when('/',
 			{
-				controller: "consoleCtrl",
+				
 				templateUrl: 'fragment/base.html'
 			})
 		.when('/home',
 			{
-				controller: "consoleCtrl",
+				
 				templateUrl: 'fragment/base.html'
 			
 			})
@@ -43,7 +43,7 @@ app.config(['$routeProvider',
 			})
 		.when('/search',
 			{
-				controller: "consoleCtrl",
+				
 				templateUrl: "fragment/search.html"
 			})
 		.otherwise({ redirectTo: '/' });

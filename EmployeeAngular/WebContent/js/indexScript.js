@@ -31,7 +31,11 @@ $(document).ready(function(){
 		  window.location = "/EmployeeAngular/login.html";
 	  });
 	  
+	  
 });
+function loginPage(){
+	window.location = "/EmployeeAngular/login.html";
+}
 function showClient(){
 	var id = $(this).attr("id");
 

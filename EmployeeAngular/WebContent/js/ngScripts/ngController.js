@@ -131,12 +131,14 @@ app
  * 
  */
 
-app.controller("consoleCtrl", function($scope, $http, $cookieStore,
+app.controller("consoleCtrl", function($rootScope, $scope, $http, $cookieStore,
 		loginFactory, consoleFactory) {
 	$scope.emp = [];
-	$scope.searchResult = [];
+	$scope.searchResults = [];
+	$rootScope.searchHistory = [];
 	$scope.doesExist = false;
-
+	
+	$scope.emails = [];
 	var personal = [];
 	var mgrGroup = [];
 	var memGroup = [];
@@ -173,19 +175,32 @@ app.controller("consoleCtrl", function($scope, $http, $cookieStore,
 		});
 		consoleFactory.fetchAll().success(function(data){
 			$scope.searchResults = data;
+			$('#empSearchBox').autocomplete({
+				source: $scope.emails
+			});
+			
 		});
 		$scope.findEmployee = function(){
 			for(var i = 0; i < $scope.searchResults.length; i++){
 				if($scope.empQuery == $scope.searchResults[i].email){
 					$scope.usr = $scope.searchResults[i];
 					$scope.doesExist = true;
+					
 				}
 			}
+			$scope.emails.push($scope.empQuery);
+			console.log($scope.emails);
 		}
+		
+		$scope.swipeRefresh = function(){
+			alert("Refreshed!");
+		}
+		
 
 	}
 
 	$scope.logout = function() {
+		$scope.emails = [];
 		$cookieStore.remove("email");
 
 	}

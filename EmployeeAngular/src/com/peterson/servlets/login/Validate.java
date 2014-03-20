@@ -87,6 +87,7 @@ public class Validate {
 				arr.add(obj);
 				obj = new JSONObject();
 			}
+			con.close();
 		} catch (Exception e) {
 			logger.error(e);
 		}
@@ -113,7 +114,7 @@ public class Validate {
 				logger.error("Record for " + email + " not found");
 				st = 0;
 			}
-
+			con.close();
 		} catch (Exception e) {
 			logger.error("Error getting user " + email + ": " + e.toString());
 			e.printStackTrace();
@@ -143,12 +144,13 @@ public class Validate {
 					logger.info(email + " is not an active account");
 					st = false;
 				}
+				
 			} else {
 
 				logger.error("Record for " + email + " not found");
 				st = false;
 			}
-
+			con.close();
 		} catch (Exception e) {
 			logger.error("Error getting user " + email + ": " + e.toString());
 			e.printStackTrace();
@@ -183,7 +185,7 @@ public class Validate {
 				logger.error("Record for " + email + " not found");
 				st = false;
 			}
-
+			con.close();
 		} catch (Exception e) {
 			logger.error("Error getting user " + email + ": " + e.toString());
 			e.printStackTrace();
@@ -211,7 +213,7 @@ public class Validate {
 				logger.error("Record for " + email + " not found");
 				st = 0;
 			}
-
+			con.close();
 		} catch (Exception e) {
 			logger.error("Error getting user " + email + ": " + e.toString());
 			e.printStackTrace();
@@ -245,6 +247,7 @@ public class Validate {
 					logger.error("Record for " + email + " not found");
 					st = false;
 				}
+				con.close();
 
 			} catch (Exception e) {
 				logger.error("Error getting user " + email + ": "
@@ -362,7 +365,7 @@ public class Validate {
 					}
 					jArray.add(adminUsers);
 				}
-
+				con.close();
 			} catch (Exception er) {
 				logger.error(er.toString());
 			}
@@ -384,6 +387,7 @@ public class Validate {
 			// Uncomment to make it do stuff:
 			ps.execute();
 			b = true;
+			con.close();
 		} catch (Exception e) {
 			logger.error(e.toString());
 		}
@@ -403,6 +407,7 @@ public class Validate {
 			// Uncomment to make it do stuff:
 			ps.execute();
 			b = true;
+			con.close();
 		} catch (Exception e) {
 			logger.error(e.toString());
 		}
@@ -472,6 +477,7 @@ public class Validate {
 
 			ResultSet rs = ps.executeQuery();
 			res = rs.next();
+			con.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -507,7 +513,7 @@ public class Validate {
 				res = true;
 				// Email.send(email, "fake@email.com", "Registration",
 				// "You have successfully registered. Please wait to be activated");
-
+				con.close();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -562,6 +568,7 @@ public class Validate {
 			} else {
 				logger.info("No employee found by that id");
 			}
+			con.close();
 		} catch (Exception e) {
 			logger.error(e.toString());
 		}
@@ -658,6 +665,7 @@ public class Validate {
 				array.add(obj);
 				obj = new JSONObject();
 			}
+			con.close();
 		}catch(Exception e){
 			logger.error(e.toString());
 		}

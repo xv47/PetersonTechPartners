@@ -1,32 +1,9 @@
 //Globals:
 var UserToApprove;
-/*
-if ($.cookie("email") == undefined) {
-	window.location = "/EmployeeAngular/login.html";
+var curEmails = [];
 
-}
-*/
-/*
- * 
- * Deprecated with factory
- * 
- */
-/*
-function joinGroup(g) {
-	if (g.length > 0) {
-		$.ajax({
-			type : 'POST',
-			url : 'JoinGroupServlet',
-			data : {
-				groupCname : g
-			},
-			error : function() {
-				$("#noGroup").show();
-			}
-		});
-	}
-}
-*/
+
+
 function onFileUpload(id) {
 
 	var em = $("#email").val();
@@ -124,6 +101,8 @@ $(document).ready(
 		    $('.row-offcanvas').toggleClass('active');
 		    $('.showhide').toggle();
 		  });
+		
+		
 		/*
 		$.post("JoinGroupServlet", function(data) {
 			if (data.message == "invalid") {
@@ -204,3 +183,4 @@ $(document).ready(
 			window.location = "login.html";
 		});
 	});
+
